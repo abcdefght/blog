@@ -1,0 +1,28 @@
+.paging{
+  max-width: 800px;
+  height: 36px;
+  margin: 0 auto;
+  a{
+    padding: 3px 8px;
+    color: black;
+    text-decoration: none;
+    background-color: white;
+    margin-right: 5px;
+    font-size: 14px;
+  }
+  .page{
+    transition: all .3s;
+    &:hover{
+      color: white;
+      background-color: #00a67c;
+    }
+  }
+  .active{
+    background-color: #00a67c;
+    color: white;
+  }
+  .pre,.next{
+    background-color: #2ba4e7;
+    color: white;
+  }
+}

@@ -1,0 +1,48 @@
+@leftColor:#2D2D2D;
+@rightColor:#383737;
+@borderWidth:12px;
+
+#app{
+  //组件背景色
+  .bg2{
+    #detail{
+      pre{
+        background-color: @rightColor;
+        table{
+          border-collapse: collapse;
+        }
+        tr{
+          &:nth-child(1){
+            td{
+              &:nth-child(1){
+                border-top: solid @borderWidth @leftColor;
+              }
+              &:nth-child(2){
+                border-top: solid @borderWidth @rightColor;
+              }
+            }
+          }
+          &:last-child{
+            td{
+              &:nth-child(1){
+                border-bottom: solid @borderWidth @leftColor;
+              }
+              &:nth-child(2){
+                border-bottom: solid @borderWidth @rightColor;
+              }
+            }
+          }
+          >td{
+            &:nth-child(2){
+              padding-left: 10px;
+            }
+          }
+        }
+        .hljs-ln-n{
+          background-color: @leftColor;
+          padding: 2px 0 2px 15px;
+        }
+      }
+    }
+  }
+}

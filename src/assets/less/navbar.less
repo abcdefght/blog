@@ -1,0 +1,66 @@
+.hello{
+  padding: 5px;
+  height: 40px;
+  display: grid;
+  background-color: white;
+  grid-template-columns: 1fr 160px 300px;
+  line-height: 40px;
+  align-items: center;
+  position: relative;
+  .nav{
+    ul{
+      display: flex;
+      position: relative;
+      >span{
+        position: absolute;
+        height: 4px;
+        background-color: #FB564C;
+        bottom: -4px;
+        width: 0;
+        transition: all .3s;
+      }
+      >li{
+        flex: 1;
+        text-align: center;
+        cursor: pointer;
+        position: relative;
+        &:hover{
+          color: #FB564C;
+        }
+      }
+    }
+  }
+  &-search{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .title{
+    padding-left: 40px;
+  }
+}
+/* 搜索框 */
+.search {
+  background-color: #F3F5F9;
+  border: none;
+  display: block;
+  height: 32px;
+  outline: none;
+  padding-left: 8px;
+  font-size: 14px;
+  max-width: 180px;
+}
+
+ul{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media screen and (max-width: 875px){
+  .hello{
+    grid-template-columns: 160px 1fr;
+    .title{
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,70 @@
+.calender{
+  height: auto;
+  display: flex;
+  flex-flow: column;
+}
+.top{
+  flex: 1;
+  border-bottom: solid 1px #E0DEDE;
+  text-align: center;
+  line-height: 40px;
+  color: #696868;
+  display: flex;
+  >div{
+    &:nth-child(2){
+      width: 100px;
+      height: 100%;
+      margin: 0 auto;
+    }
+  }
+}
+.bottom{
+  flex: 7;
+}
+table{
+  width: 100%;
+  margin-top: 5px;
+  td{
+    text-align: center;
+    padding: 5px;
+    transition: background-color .6s;
+    &:hover{
+      cursor: pointer;
+      background-color: #EEEEEE;
+    }
+  }
+}
+
+.active,.active:hover{
+  background-color: #FB4023;
+  color: white;
+}
+.preDate,.nextDate{
+  flex: 1;
+  display: flex;
+  >button{
+    border: none;
+    background-color: white;
+    font-size: 17px;
+    color: #999999;
+    transition: color 0.8s;
+    font-weight: 100;
+    outline: none;
+  }
+}
+.preYear,.nextYear{
+  flex: 2;
+}
+.preMonth,.nextMonth{
+  flex: 1;
+}
+.preMonth{
+  text-align: left;
+}
+.nextMonth{
+  text-align: right;
+}
+.preMonth:hover,.nextMonth:hover,.preYear:hover,.nextYear:hover{
+  color: red;
+  cursor: pointer;
+}

@@ -1,0 +1,46 @@
+#app{
+  //组件背景色
+  .bg3{
+    #detail{
+      .copy{
+        color: black;
+        top: 12px;
+        right: 12px;
+      }
+      pre{
+        padding: 0;
+        border-top: solid 10px #F2F2F2;
+        background-color: white;
+        border-bottom:  solid 10px #F2F2F2;
+        border-right: solid 10px #F2F2F2;
+        color: black;
+        table{
+          border-collapse: collapse;
+        }
+        tr{
+          >td{
+            &:nth-child(2){
+              padding-left: 10px;
+            }
+          }
+        }
+        .hljs-ln-n{
+          background-color: #F2F2F2;
+          padding: 2px 0 2px 15px;
+          &:before{
+            color: black;
+          }
+        }
+        .hljs-name{
+          color: #009688;
+        }
+        .hljs-keyword{
+          color: #FC7A32;
+        }
+        .hljs-params{
+          color: #5173EE;
+        }
+      }
+    }
+  }
+}

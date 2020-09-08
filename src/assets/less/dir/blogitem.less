@@ -1,0 +1,108 @@
+// 博客公共样式
+
+.blog-item{
+  position: relative;
+  background-color: white;
+  display: flex;
+  flex-flow: column;
+  overflow: hidden;
+  padding: 5px;
+  >.title{
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    display: flex;
+    align-items: center;
+    >span{
+      &:nth-child(1){
+        display: inline-block;
+        width: 90px;
+        height: 26px;
+        background-color: #fc533d;
+        color: #fff;
+        line-height: 26px;
+        text-align: center;
+        margin: 7px;
+        position: relative;
+        >span{
+          position: absolute;
+          width: 0;
+          height: 0;
+          top: 50%;
+          left: 100%;
+          display: inline-block;
+          border-top: solid 5px transparent;
+          border-bottom: solid 5px transparent;
+          border-left: solid 5px #fc533d;
+          margin-top: -5px;
+        }
+      }
+      &:nth-child(2){
+        line-height: 40px;
+        margin-left: 8px;
+        transition: color .3s;
+        &:hover{
+          cursor: pointer;
+          color: #A56F84;
+        }
+      }
+    }
+  }
+  .bottom{
+    padding: 0 5px;
+    &-con{
+      font-size: 14px;
+      color: #999999;
+      padding: 5px 0;
+    }
+    &-info{
+      padding-top: 10px;
+      display: flex;
+      font-size: 14px;
+      flex-wrap: wrap;
+      >div{
+        display: flex;
+        margin-right: 10px;
+        >div{
+          display: flex;
+          margin-right: 5px;
+          align-items: center;
+        }
+      }
+      img{
+        width: 18px;
+        height: auto;
+      }
+    }
+    &-file{
+      font-size: 14px;
+      margin: 5px 0;
+      color: #999999;
+      a{
+        background-color: #F3F5F9;
+        padding: 3px 10px;
+        border-radius: 3px;
+        margin: 8px;
+        color: #009688;
+        text-decoration: none;
+      }
+    }
+  }
+}
+.node{
+  display: inline-block;
+  font-size: 12px;
+  height: 20px;
+  line-height: 20px;
+  margin-left: 10px;
+  padding: 0 5px;
+  background-color: #2ba4e7;
+  color: white;
+}
+
+
+@media screen and (max-width: 600px){
+  .right{
+    display: none !important;
+  }
+}

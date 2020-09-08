@@ -1,0 +1,114 @@
+.hljs{
+  font-family: "Source Code Pro","DejaVu Sans Mono","Ubuntu Mono","Anonymous Pro","Droid Sans Mono",Menlo,Monaco,Consolas,Inconsolata,Courier,monospace,"PingFang SC","Microsoft YaHei",sans-serif;
+}
+.hljs-ln-n:before{
+  content: attr(data-line-number);
+  color: #999999;
+  margin-right: 10px;
+}
+
+.hljs-keyword{
+  color: #f99157;
+}
+.hljs-string{
+  color: #42b983;
+}
+.hljs-number{
+  color: #E02298;
+}
+.hljs-params{
+  color: #DDE275;
+}
+.hljs-comment{
+  color: rgba(253,250,250,0.5);
+}
+
+/* css 样式 */
+.hljs-attribute{
+  color: #44D975;
+}
+
+/* html 样式 */
+.hljs-name{
+  color: #FD8246;
+}
+.hljs-literal{
+  color: #E02298;
+}
+
+
+/* javascript样式 */
+.hljs-built_in{
+  color: #AB66BF;
+}
+.hljs-regexp{
+  color: #DDE275;
+}
+
+.hljs-attr{
+  color: #CEDC58;
+}
+
+.hljs-symbol{
+   color: #68E868;
+ }
+
+.Less>.hljs-attr{
+  color: #ccc;
+}
+
+
+.code{
+  position: relative;
+  margin: 5px 0;
+}
+
+pre{
+  display: block;
+  background-color: #2D2D2D;
+  font-size: 13px;
+  color: #ccc;
+  overflow: auto;
+  margin: 5px 0;
+}
+
+pre table{
+  border-collapse: collapse;
+}
+.code>.copy{
+  position: absolute;
+  display: none;
+  right: 5px;
+  top: 5px;
+  color: white;
+  font-size: 14px;
+  border: solid 1px #8E8987;
+  width: 60px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+}
+.code:hover>.copy{
+  display: block;
+}
+.copy:hover{
+  cursor: pointer;
+}
+
+/* 隐藏copy */
+#copy{
+  opacity: 0;
+  display: block;
+  width: 0;
+  height: 0;
+}
+
+.hljs-ln-n{
+  text-align: right;
+  padding: 2px 0 2px 15px;
+  font-size: 13px;
+}
+
+pre.single-line{
+  padding: 10px;
+}

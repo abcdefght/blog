@@ -1,0 +1,125 @@
+.detail-title{
+  position: relative;
+  margin: 10px 0;
+  border-bottom: solid 1px #EEEEEE;
+  padding-bottom: 20px;
+  >.detail-author{
+    display: flex;
+    flex-wrap: wrap;
+    >.four{
+      min-width: 60px;
+      display: flex;
+      margin-right: 20px;
+      min-height: 30px;
+      line-height: 30px;
+      >div{
+        display: flex;
+        &:nth-child(1){
+          justify-content: flex-start;
+          align-items: center;
+          width: 24px;
+          >img{
+            width: 20px;
+            height: auto;
+          }
+        }
+        &:nth-child(2){
+          flex: 1;
+        }
+      }
+    }
+  }
+  >p{
+    font-size: 19px;
+  }
+  >.pub-date{
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    >div{
+      font-family:SourceCodeProRegular,Menlo,Monaco,Consolas,"Courier New",monospace,'Helvetica Neue',Arial,sans-serif;
+      &:nth-child(1){
+        font-size: 40px;
+        color: #00a67c;
+        text-align: center;
+        font-weight: 700;
+      }
+      &:nth-child(2){
+        span{
+          color: #999999;
+          margin: 0 8px;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}
+#detail{
+  >.code{
+    width: auto;
+    margin: 5px auto;
+  }
+}
+.tag{
+  margin-top: 30px;
+  padding: 10px 0;
+  border-top: solid 1px #EEEEEE;
+  display: flex;
+  >div{
+    &:nth-child(1){
+      display: flex;
+      align-items: center;
+      >img{
+        width: 26px;
+        height: auto;
+      }
+    }
+    &:nth-child(2){
+      margin-left: 10px;
+      >span{
+        display: inline-block;
+        margin-right: 4px;
+        padding: 0 5px;
+        color: white;
+        height: 24px;
+        line-height: 24px;
+        transition: opacity .3s;
+        position: relative;
+        >span{
+          display: inline-block;
+          position: absolute;
+          width: 100px;
+          background-color: black;
+          color: white;
+          font-size: 13px;
+          bottom: 100%;
+          text-align: center;
+          opacity: 0;
+          margin-bottom: 6px;
+          left: 0;
+          z-index: -1;
+          &:before{
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            top: 100%;
+            border-left: solid 4px transparent;
+            border-right: solid 4px transparent;
+            border-top: solid 5px black;
+            left: 10px;
+          }
+        }
+        &:hover{
+          cursor: pointer;
+          span{
+            opacity: 0.6;
+            z-index: 10;
+          }
+        }
+      }
+    }
+  }
+}
+
