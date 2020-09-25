@@ -1,11 +1,6 @@
 <template>
     <div class="error-404">
-      <div>
-        <img src="../assets/img/404.png" alt="#">
-      </div>
-      <div>
-        404，页面不存在
-      </div>
+      404,页面不存在
     </div>
 </template>
 
@@ -15,24 +10,11 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="less">
    .error-404{
-     position: fixed;
-     width: 300px;
-     height: 160px;
-     left: 50%;
-     top: 30%;
-     margin-left: -150px;
-     display: flex;
+      margin-top: 100px;
+      text-align: center;
+      color: red;
    }
-  .error-404>div{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-  }
-  .error-404>div>img{
-    width: 100px;
-    height: auto;
-  }
+
 </style>

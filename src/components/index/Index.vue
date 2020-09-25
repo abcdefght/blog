@@ -1,5 +1,6 @@
 <template>
   <div>
+    <NavBar/>
     <div class="container">
       <div class="one">
         <Carouse/>
@@ -34,6 +35,7 @@ import UserShow from './children/UserShow';
 import Tags from './children/Tags';
 import Notice from './children/Notice';
 import BlogFile from './children/BlogFile';
+import NavBar from "../NavBar";
 
 export default {
   name: 'App',
@@ -48,7 +50,8 @@ export default {
     UserShow,
     Tags,
     Notice,
-    BlogFile
+    BlogFile,
+    NavBar
   },
 }
 </script>
@@ -68,7 +71,7 @@ export default {
       flex-direction: column;
       >div{
         background-color: white;
-        padding: 10px;
+        padding: 20px;
         &:nth-child(n+2){
           margin-top: 10px;
         }

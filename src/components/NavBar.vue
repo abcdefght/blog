@@ -4,7 +4,8 @@
     <div class="nav">
         <ul>
           <li @mouseover="showSlide($event)" @mouseout="closeSlide($event)" @click="goTo2('/')">首页</li>
-          <li @mouseover="showSlide($event)" @mouseout="closeSlide($event)" @click="goTo2('/data-info')">数据统计</li>
+          <li @mouseover="showSlide($event)" @mouseout="closeSlide($event)" @click="goTo2('/word')">留言板</li>
+          <li @mouseover="showSlide($event)" @mouseout="closeSlide($event)" @click="goTo2('/login')">后台管理</li>
           <span class="slider-nav" :style="styleObj" @mouseover="showSlide($event)" @mouseout="closeSlide($event)"></span>
         </ul>
       </div>
@@ -38,10 +39,10 @@
         this.initSearchWord(word);
         this.initSearchPage();
         this.changeSearchFlag(false);
-
         Search({
-          w:word,
-          p:1
+          word:word,
+          page:0,
+          size:5
         }).then(res=>{
           if(res.code===200){
             this.initSearchData(res.result);

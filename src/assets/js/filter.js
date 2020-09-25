@@ -1,17 +1,31 @@
 // 全局过滤器
 import Vue from 'vue';
 
-// 定义日期过滤器
-Vue.filter('pubDate-filter',function (value) {
+/*
+* 时间日期过滤器 将时间转化为年月日形式
+* @param {String} value
+* @example
+* 1) 2019-09-20 23:12 --> 2019年9月20日 23:12
+* 2) 2019-09-10 --> 2019年9月10日
+* */
+export const dateFilter=function(value,flag=true) {
   let date=value.split(' ');
   let temp=date[0].split('-');
-  if(typeof date[1]==='undefined'){
-    return temp[0]+'年'+temp[1]+'月'+temp[2]+'日 ';
+  if(flag){
+    return temp[0]+'年'+temp[1]+'月'+temp[2]+'日 '+date[1];
   }
-  return temp[0]+'年'+temp[1]+'月'+temp[2]+'日 '+date[1];
-});
+  else{
+    return temp[0]+'年'+temp[1]+'月'+temp[2]+'日'
+  }
+};
 
-Vue.filter('pubDate-filter2',function (value) {
+
+/*
+* 时间日期过滤器 将时间转化为本地值
+* @param {String} value 形如 `2019-09-10 23:12`
+* @return {String} 形如 `刚刚`|`5分钟前`|`2小时前`|`2天前`|`2019-09-10 23:12`
+* */
+export const localFilter=function (value){
   let b=new Date(value).getTime();
   let c=new Date().getTime();
   let temp=(c-b)/1000;
@@ -31,23 +45,12 @@ Vue.filter('pubDate-filter2',function (value) {
   else {
     return value;
   }
-});
+};
 
-// 定义标签过滤器
-Vue.filter('tag-filter',function (value) {
-  return value.split(',')[0];
-});
+/*
+* 标签过滤器
+* @param {String} value 形如:`vue,webpack`
+* */
+export const tagFilter=function(value){return value.split(',')[0]}
 
-
-
-const pubDateFilter=Vue.filter('pubDate-filter');
-const tagFilter=Vue.filter('tag-filter');
-const pubDateFilter2=Vue.filter('pubDate-filter2');
-
-
-export {
-  pubDateFilter,
-  tagFilter,
-  pubDateFilter2,
-}
 

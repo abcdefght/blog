@@ -12,7 +12,7 @@
             </div>
             <div class="four">
               <div><img src="../../../assets/img/pub.png" alt="#"></div>
-              <div>{{pubDate|pubDateFilter}}</div>
+              <div>{{pubDate|dateFilter}}</div>
             </div>
             <div class="four">
               <div><img src="../../../assets/img/see2.png" alt="#"></div>
@@ -37,20 +37,6 @@
         <!-- 博客内容 -->
         <div id="detail" v-html="detail">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </div>
 
 
@@ -65,14 +51,12 @@
         </div>
       </div>
 
-      <!-- 设置复制代码 -->
-      <textarea name="" id="copy"></textarea>
-
     </div>
 </template>
 
 <script>
   import {addScan, getBlog} from "../../../api/src";
+  import {getColor} from "../../../assets/js/func";
 
   export default {
         name: "BlogDetail",
@@ -95,7 +79,7 @@
             return arr.map(x => {
               return {
                 name: x,
-                color: this.getColor(x)
+                color: getColor(x)
               }
             });
           },
@@ -106,7 +90,7 @@
         },
         methods:{
             getData(){
-              getBlog(this.blogId).then(res=>{
+               getBlog(this.blogId).then(res=>{
                 if(res.code===200){
                   this.detail=res.result.detail;
                   this.title=res.result.title;
@@ -118,77 +102,15 @@
                 }
               })
             },
-            copy(){
-              let that=this;
-              this.$nextTick().then(()=>{
-              // 复制操作
-              let list=document.getElementsByClassName('copy');
-              for(let i=0;i<list.length;i++){
-                list[i].addEventListener('click',function (e) {
-                  // 复制操作
-                  let temp=e.currentTarget.nextElementSibling.innerText.split('\n');
-                  let s='';
-                  temp.forEach(x=>{
-                    if(x!==''){
-                      s+=x+'\n';
-                    }
-                  });
-                  document.getElementById('copy').value=s;
-                  document.getElementById('copy').select();
-                  document.execCommand('copy');
-                  e.currentTarget.innerText='copied';
-                  setTimeout(()=>{
-                    e.target.innerText='copy';
-                  },3000)
-                })
-              }
-
-              // 图片缩略图
-              that.imgList=[];
-              let list2=document.querySelectorAll('div.img>img');
-              for(let i=0;i<list2.length;i++){
-                list2[i].addEventListener('click',function (e) {
-                  window.open(e.target.src);
-                })
-              }
-            })
-
-          },
             goTo(tag){
             this.$router.push({
               path:'/tag/'+tag
             })
-          },
-            getColor(tag){
-              let colors=[
-                {name:'Python',color:'#FB4C7B'},
-                {name:'Django',color:'#977ADD'},
-                {name:'算法',color:'#FB674C'},
-                {name:'算法练习',color:'#459CE6'},
-                {name:'CSS',color:'#9EDD7A'},
-                {name:'Mysql',color:'#CDDD7A'},
-                {name:'Linux',color:'#DDB97A'},
-                {name:'Vue',color:'#DD7A8D'},
-                {name:'Javascript',color:'#DD7AB7'}
-              ];
-
-              for(let i=0;i<colors.length;i++){
-                if(colors[i].name===tag){
-                  return colors[i].color;
-                }
-              }
-              return '#BF7ADD'
-            },
-            showTagInfo(index){
-              this.num=index;
-            }
+          }
         },
         created() {
           this.blogId=this.$route.params.id;
           this.getData();
-        },
-        mounted(){
-          this.copy();
         },
         watch:{
           '$route.params.id':{
@@ -196,7 +118,9 @@
               let temp=this.$cookies.get('seeList');
               if(temp){
                 if(!temp.split(',').includes(newVal)){
-                  addScan(newVal).then(res=>{});
+                  addScan(newVal).then(res=>{
+                    console.log(res);
+                  });
                 }
                 let temp2=Array.from(new Set((temp+','+newVal).split(','))).join(',');
                 this.$cookies.set('seeList',temp2,60*24-(new Date().getMinutes()));
@@ -209,15 +133,6 @@
               this.getData();
             },
             immediate:true
-          },
-          'detail': function () {
-            this.copy();
-          }
-        },
-        filters:{
-          dateFilter(value){
-            let temp=value.split(' ')[0].split('-');
-            return temp[0]+'年'+temp[1]+'月'+temp[2]+'日'
           }
         }
     }

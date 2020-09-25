@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import VueCookies from 'vue-cookies'
-import getToken from '../assets/js/func'
+import {getToken} from '../assets/js/func'
 
 
 // 路由懒加载
@@ -27,8 +27,10 @@ const Comment=()=>import('../components/blog/children/Comment');
 const Test=()=>import('../components/Test');
 const BlogFile=()=>import('../components/index/children/BlogFile');
 const FileDir=()=>import('../components/FileDir');
-const DataInfo=()=>import('../components/DataInfo');
-
+const Word=()=>import('../components/Word');
+const Login=()=>import('../components/Login')
+const Admin=()=>import('../components/admin/Admin')
+const BlogCon=()=>import('../components/admin/children/BlogCon')
 
 Vue.use(VueCookies);
 Vue.use(Router);
@@ -41,7 +43,11 @@ const router=new Router({
     {path:'/file/:id',name:'FileDir',component:FileDir},
     {path:'/blog/:id',name:'Blog',component:Blog},
     {path:"/search",name:"Search", component:Search},
-    {path:'/data-info',name:'DataInfo',component:DataInfo},
+    {path:'/word',name:'Word',component:Word},
+    {path:'/login',name:'Login',component:Login},
+    {path:'/admin',name:'Admin',component:Admin,children:[
+        {path:'/admin/blog-con',name:'BlogCon',component:BlogCon}
+      ]},
     {path:"*", name:"404", component:Error404},
     {path:'/test',component:Test},
   ]

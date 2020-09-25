@@ -1,14 +1,16 @@
 <template>
     <div>
+      <NavBar/>
       <div class="blog-detail">
-        <div v-for="(item,index) in searchData" :key="index" class="blog-item">
+        <transition-group name="fade" style="display: grid;gap: 10px;">
+          <div v-for="item in searchData" :key="item.id" class="blog-item">
             <div class="title">
                 <span>{{item.tag|tagFilter}}<span></span></span>
                 <span @click="goDetail(item.id)" v-html="wordFilter(item.title,searchWord)"></span>
             </div>
             <div class="bottom">
               <div v-html="wordFilter(item.detail,searchWord)" class="bottom-con"></div>
-              <div class="bottom-file" v-if="item.fileId>1">本文收录于<a href="javascript:void(0)">{{item.fileName}}</a></div>
+              <div class="bottom-file" v-if="item.fileId>1">本文收录于<a href="javascript:void(0)" @click="goFile(item.fileId)">{{item.fileName}}</a></div>
               <div class="bottom-info">
                   <div>
                     <div><img src="../assets/img/user2.png" alt="图片未加载"></div>
@@ -16,7 +18,7 @@
                   </div>
                   <div>
                     <div><img src="../assets/img/pub.png" alt="图片未加载"></div>
-                    <div>{{item.pubDate|pubDateFilter}}</div>
+                    <div>{{item.pubDate|dateFilter}}</div>
                   </div>
                   <div>
                     <div><img src="../assets/img/see2.png" alt="图片未加载"></div>
@@ -29,6 +31,7 @@
                 </div>
             </div>
           </div>
+        </transition-group>
       </div>
       <div v-show="searchFlag" class="no-data">没有数据了!</div>
     </div>
@@ -37,6 +40,7 @@
 <script>
     import { mapState,mapActions } from 'vuex';
     import {Search} from "../api/src";
+    import NavBar from "./NavBar";
 
     export default {
       name: "Search",
@@ -71,13 +75,13 @@
           let client=document.documentElement.clientHeight||document.body.clientHeight;
           let top=document.documentElement.scrollTop||document.body.scrollTop;
           let height=document.documentElement.scrollHeight;
-          if(height-client-top<10&&!this.searchFlag){
-            this.$loading(true);
+          if(height-client-top<1&&!this.searchFlag){
             setTimeout(()=>{
               this.addSearchPage(1);
               Search({
-                w:this.searchWord,
-                p:this.searchPage,
+                word:this.searchWord,
+                page:this.searchPage,
+                size:5
               }).then(res=>{
                 if(res.code===200){
                   if(res.result.length>0&&res.result.length<=5){
@@ -88,7 +92,6 @@
                   }
                 }
               });
-              this.$loading(false);
             },1000);
           }
         },
@@ -102,8 +105,16 @@
 
         // 搜索关键字高亮显示
         wordFilter(s1,s2){
-          return s1.replace(eval("/"+s2+"/g"),"<span style='color: red;'>"+s2+"</span>")
+          return s1.replace(eval(`/(${s2})/ig`),`<span style='color: red;'>$1</span>`)
+        },
+        goFile(fileId){
+          this.$router.push({
+            path:`/file/${fileId}`
+          })
         }
+      },
+      components:{
+        NavBar
       }
     }
 </script>

@@ -6,11 +6,11 @@
       <div :class="{'active':4===num}" class="img"><img v-lazy="'https://www.uhnehc.top/api/media/carousel/test4.jpg'" alt=""></div>
       <div :class="{'active':5===num}" class="img"><img v-lazy="'https://www.uhnehc.top/api/media/carousel/test5.jpg'" alt=""></div>
       <div class="switch">
-          <span :class="{'switch-active':1===num}"></span>
-          <span :class="{'switch-active':2===num}"></span>
-          <span :class="{'switch-active':3===num}"></span>
-          <span :class="{'switch-active':4===num}"></span>
-          <span :class="{'switch-active':5===num}"></span>
+          <span><i :class="{'i-active':num===1}"></i></span>
+          <span><i :class="{'i-active':num===2}"></i></span>
+          <span><i :class="{'i-active':num===3}"></i></span>
+          <span><i :class="{'i-active':num===4}"></i></span>
+          <span><i :class="{'i-active':num===5}"></i></span>
       </div>
       <div class="hover-style" :class="hoverClass"></div>
     </div>
@@ -38,6 +38,21 @@
 </script>
 
 <style scoped lang="less">
+  @keyframes move {
+    0%{
+      width: 0;
+      left:0;
+    }
+    10%,90%{
+      width: 100%;
+      left: 0;
+      background-color: black;
+    }
+    100%{
+      width: 0;
+      left: 100%;
+    }
+  }
   .carouse{
     width: 100%;
     height: 400px;
@@ -60,22 +75,32 @@
       z-index: 20;
     }
     .switch{
-      width: 280px;
-      height: 5px;
+      width: 300px;
+      height: 6px;
       position: absolute;
       z-index: 30;
       display: flex;
+      justify-content: space-around;
       left: 50%;
       top: 97%;
-      margin-left: -140px;
+      margin-left: -150px;
       span{
-        flex: 1;
-        margin: 0 5px;
+        width: 45px;
         background-color: white;
         opacity: 0.6;
-      }
-      >.switch-active{
-        background-color: #393739;
+        position: relative;
+        i{
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 100;
+          &.i-active{
+            animation: move 5s 1;
+            animation-fill-mode: forwards;
+          }
+        }
       }
     }
   }

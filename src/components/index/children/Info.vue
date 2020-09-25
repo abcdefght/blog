@@ -28,7 +28,6 @@
     padding: 10px;
     > a {
       color: #cccccc;
-      text-decoration: none;
       &:hover {
         color: white;
         text-decoration: underline;

@@ -1,6 +1,6 @@
 <template>
     <div class="notice">
-      <p>公告</p>
+      <p><img src="../../../assets/img/notice.png" alt="">公告</p>
       <div>
         个人创作的个人博客，记录生活的点点滴滴！
       </div>
@@ -18,6 +18,13 @@
     >p{
       padding-bottom: 5px;
       border-bottom: 1px solid #EEEEEE;
+      display: flex;
+      align-items: center;
+      img{
+        width: 24px;
+        height: auto;
+        margin-right: 10px;
+      }
     }
     >div{
       padding: 10px;

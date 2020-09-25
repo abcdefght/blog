@@ -1,6 +1,9 @@
 <template>
     <div class="user-show">
-        <p>关于博主</p>
+        <p>
+          <img src="../../../assets/img/about.png" alt="">
+          关于博主
+        </p>
         <div class="top">
           <div>
             <img :src="user.imgUrl" alt="#">
@@ -35,33 +38,14 @@
         data(){
           return {
             user:{
-              motto:'',
-              imgUrl:'',
               user:'',
-              uid:'',
-              blogLength:0,
-              number:0,
-              comment:0,
-              tagLength:0
             }
           }
         },
-        created(){
-          let uid=this.$route.params.uid;
-          getUser(uid).then(res=>{
-            if(res.code===200){
-              this.user=res.result;
-            }
-          })
-        },
-        watch:{
-          '$route.params.uid':function (newVal) {
-            let uid=this.$route.params.uid;
-            getUser(uid).then(res=>{
-              if(res.code===200){
-                this.user=res.result;
-              }
-            })
+        async created(){
+          const res=await getUser();
+          if(res.code===200){
+            this.user=res.result;
           }
         }
     }
@@ -73,6 +57,13 @@
       border-bottom: solid 1px #EEEEEE;
       margin: 0 0 5px 5px;
       padding-bottom: 5px;
+      display: flex;
+      align-items: center;
+      img{
+        width: 19px;
+        height: auto;
+        margin-right: 10px;
+      }
     }
     >.top{
       height: 90px;

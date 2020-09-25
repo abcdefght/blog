@@ -6,21 +6,6 @@
 @import "./bg/bg3";
 
 
- //按钮设置
-.btn{
-  border: none;
-  outline: none;
-  background-color: #00a67c;
-  color: white;
-  transition: opacity .3s;
-  padding: 5px 10px;
-  &:hover{
-    opacity: 0.6;
-    cursor: pointer;
-  }
-}
-
-// 单个组件过渡样式
 
 // 滑动过渡
 .slide-enter-active,.slide-leave-active{
@@ -45,21 +30,28 @@
   opacity: 0;
 }
 
-
-// 笼罩层
-.hidden{
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  background-color: black;
-  opacity: 0.6;
-  z-index: 100;
+// 标签样式初始话
+button{
+  outline: none;
+  &:hover{
+    cursor: pointer;
+  }
 }
-
-
-
+a{
+  text-decoration: none;
+}
+ul,ol{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+textarea{
+  outline: none;
+  resize: none;
+}
+input{
+  outline: none;
+}
 
 
 

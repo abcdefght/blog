@@ -1,5 +1,5 @@
 <template>
-    <div id="p-hidden" class="hidden" v-if="flag">
+    <div id="hidden">
 
     </div>
 </template>
@@ -7,20 +7,18 @@
 <script>
     export default {
         name: "Hidden",
-        data(){
-          return {
-            flag:false
-          }
-        },
-        methods:{
-          open(){
-            this.flag=true;
-          },
-          close(){
-            this.flag=false;
-          }
-        }
     }
 </script>
 
-
+<style scoped lang="less">
+    #hidden{
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background-color: black;
+        opacity: 0.3;
+        z-index: 100;
+    }
+</style>

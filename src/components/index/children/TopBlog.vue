@@ -13,7 +13,7 @@
             <div class="bottom-con">
               {{item.detail}}
             </div>
-            <div class="bottom-file" v-if="item.fileId>1">本文收录于<a href="javascript:void(0)">{{item.fileName}}</a></div>
+            <div class="bottom-file" v-if="item.fileId>1">本文收录于<a href="javascript:void(0)" @click="goFile(item.fileId)">{{item.fileName}}</a></div>
             <div class="bottom-info">
               <div>
                 <div><img src="../../../assets/img/user2.png" alt="#"></div>
@@ -21,7 +21,7 @@
               </div>
               <div>
                 <div><img src="../../../assets/img/pub.png" alt="#"></div>
-                <div>{{item.pubDate|pubDateFilter}}</div>
+                <div>{{item.pubDate|dateFilter}}</div>
               </div>
               <div>
                 <div><img src="../../../assets/img/commit.png" alt="#"></div>
@@ -36,52 +36,47 @@
             </div>
           </div>
         </li>
-        <li v-for="(item,index) in result1" :key="index" class="blog-item">
-          <div class="title">
-            <span>{{item.tag|tagFilter}}<span></span></span>
-            <span @click="goTo(item.id)">
+          <transition-group name="fade" style="display: grid;gap: 10px;">
+            <li v-for="(item,index) in result1" :key="item.id" class="blog-item">
+              <div class="title">
+                <span>{{item.tag|tagFilter}}<span></span></span>
+                <span @click="goTo(item.id)">
               {{item.title}}
             </span>
-          </div>
-          <div class="bottom">
-            <div class="bottom-con">
-              {{item.detail}}
-            </div>
-            <div class="bottom-file" v-if="item.fileId>1">本文收录于<a href="javascript:void(0)">{{item.fileName}}</a></div>
-            <div class="bottom-info">
-              <div>
-                <div><img src="../../../assets/img/user2.png" alt="#"></div>
-                <div>{{item.author}}</div>
               </div>
-              <div>
-                <div><img src="../../../assets/img/pub.png" alt="#"></div>
-                <div>{{item.pubDate|pubDateFilter}}</div>
-              </div>
-              <div>
-                <div><img src="../../../assets/img/commit.png" alt="#"></div>
-                <div>{{item.comment}}评论数</div>
-              </div>
-              <div>
-                <div>
-                  <img src="../../../assets/img/see2.png" alt="#">
+              <div class="bottom">
+                <div class="bottom-con">
+                  {{item.detail}}
                 </div>
-                <div>{{item.number}}浏览数</div>
+                <div class="bottom-file" v-if="item.fileId>1">本文收录于<a href="javascript:void(0)" @click="goFile(item.fileId)">{{item.fileName}}</a></div>
+                <div class="bottom-info">
+                  <div>
+                    <div><img src="../../../assets/img/user2.png" alt="#"></div>
+                    <div>{{item.author}}</div>
+                  </div>
+                  <div>
+                    <div><img src="../../../assets/img/pub.png" alt="#"></div>
+                    <div>{{item.pubDate|dateFilter}}</div>
+                  </div>
+                  <div>
+                    <div><img src="../../../assets/img/commit.png" alt="#"></div>
+                    <div>{{item.comment}}评论数</div>
+                  </div>
+                  <div>
+                    <div>
+                      <img src="../../../assets/img/see2.png" alt="#">
+                    </div>
+                    <div>{{item.number}}浏览数</div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </li>
+            </li>
+          </transition-group>
       </ul>
       <div class="next-page" v-if="flag2">
         <button @click="getNextData">下一页</button>
       </div>
-      <div v-else class="loading">
-        <div>
-          <img src="../../../assets/img/loading.png" alt="#">
-        </div>
-        <div>
-          数据加载中
-        </div>
-      </div>
+      <Loading2 v-else style="margin:10px 0;"/>
     </div>
 </template>
 
@@ -94,19 +89,17 @@
           return{
             result1:[],
             result2:[],
-            page:1,
+            page:0,
             flag:true,
             flag2:true  // 设置加载过渡动画
           }
         },
-        created(){
-          getRecommend(this.page).then(res=>{
-            if(res.code===200){
-              console.log(res.result);
-              this.result1=res.result.data1;
-              this.result2=res.result.data2;
-            }
-          })
+        async created(){
+          const res=await getRecommend({page:this.page,size:5});
+          if(res.code===200){
+            this.result1=res.result.data1;
+            this.result2=res.result.data2;
+          }
         },
       methods:{
         goTo(id){
@@ -114,11 +107,12 @@
             path:'/blog/'+id
           })
         },
-        getNextData(){
+        async getNextData(){
           if(this.flag){
             this.page+=1;
             this.flag2=false;
-            getRecommend(this.page).then(res=>{
+            const res=await getRecommend({page:this.page,size:5});
+            setTimeout(()=>{
               if(res.result.data1.length<5){
                 this.flag=false;
                 this.flag2=true;
@@ -127,11 +121,17 @@
                 this.flag2=true;
                 this.result1=[...this.result1,...res.result.data1]
               }
-            })
+            },400);
           }
           else{
             this.$msg('无数据了');
           }
+        },
+        goFile(id){
+          console.log(id);
+          this.$router.push({
+            path:`/file/${id}`
+          })
         }
       }
     }
@@ -150,7 +150,6 @@
   .top-blog{
     margin: 10px 0;
     >ul{
-      list-style: none;
       display: grid;
       gap: 10px;
     }
@@ -165,7 +164,6 @@
       color: white;
       border: none;
       transition: opacity .3s;
-      outline: none;
       &:hover{
         cursor: pointer;
         opacity: .7;
@@ -182,7 +180,6 @@
       font-size: 14px;
       &:nth-child(1){
         margin-right: 10px;
-
       }
       img{
         width: 22px;

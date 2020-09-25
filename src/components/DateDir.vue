@@ -1,5 +1,6 @@
 <template>
     <div>
+      <NavBar/>
       <div class="blog-detail">
             <div v-for="(item,index) in dateData" :key="index" class="blog-item">
               <div class="title">
@@ -8,7 +9,7 @@
               </div>
               <div class="bottom">
                 <div v-text="item.detail" class="bottom-con"></div>
-                <div class="bottom-file" v-if="item.fileId>1">本文收录于<a href="javascript:void(0)">{{item.fileName}}</a></div>
+                <div class="bottom-file" v-if="item.fileId>1">本文收录于<a href="javascript:void(0)" @click="goFile(item.fileId)">{{item.fileName}}</a></div>
                 <div class="bottom-info">
                   <div>
                     <div><img src="../assets/img/user2.png" alt="图片未加载"></div>
@@ -16,7 +17,7 @@
                   </div>
                   <div>
                     <div><img src="../assets/img/pub.png" alt="图片未加载"></div>
-                    <div>{{item.pubDate|pubDateFilter}}</div>
+                    <div>{{item.pubDate|dateFilter}}</div>
                   </div>
                   <div>
                     <div><img src="../assets/img/see2.png" alt="图片未加载"></div>
@@ -32,7 +33,7 @@
           </div>
       <div class="paging">
             <a href="javascript:void(0)" class="pre" @click="getPage(page-parseInt(1,10))">上一页</a>
-            <a @click="getPage(item)" href="javascript:void(0)" class="page" :class="{active:page===item}" v-for="item in pageArr">{{item}}</a>
+            <a @click="getPage(item)" href="javascript:void(0)" class="page" :class="{active:page+1===item}" v-for="item in pageArr">{{item}}</a>
             <a href="javascript:void(0)" class="next" @click="getPage(page+parseInt(1,10))">下一页</a>
         </div>
     </div>
@@ -40,21 +41,24 @@
 
 <script>
     import {getUserDate} from "../api/src";
+    import NavBar from "./NavBar";
 
     export default {
         name: "dateDir",
         data(){
           return {
             dateData:[],
-            page:1,
+            page:0,
             pageArr:[],
-            pageLength:0
+            pageLength:0,
+            size:5
           }
         },
         created(){
           getUserDate({
             date:this.$route.params.date,
-            page:1
+            page:0,
+            size:this.size
           }).then(res=>{
             if(res.code===200){
               this.dateData=res.result;
@@ -68,6 +72,11 @@
           });
         },
         methods:{
+          goFile(fileId){
+            this.$router.push({
+              path:`/file/${fileId}`
+            })
+          },
           goDetail(num){
             this.$router.push({
               path:'/blog/'+num
@@ -76,7 +85,8 @@
           getPage(page){
             getUserDate({
               date:this.$route.params.date,
-              page:page
+              page:page,
+              size:this.size
             }).then(res=>{
               if(res.code===200&&res.result.length>0&&res.result.length<=5){
                 this.dateData=res.result;
@@ -96,6 +106,9 @@
             }
 
           }
+        },
+        components:{
+          NavBar
         }
     }
 </script>

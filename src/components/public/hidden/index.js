@@ -1,26 +1,25 @@
-import HiddenComponent from './Hidden';
+import HiddenComponent from './Hidden.vue';
 import Vue from 'vue';
 
-const HiddenConstructor=Vue.extend(HiddenComponent);
+const HiddenConstruct=Vue.extend(HiddenComponent);
 
+/*
+* 笼罩层组件
+* @param {Boolean} options 为true显示，为false关闭
+* */
 const hidden=function (options) {
-  if(typeof options==='boolean'){
-    const a=new HiddenConstructor({
-      el:document.createElement('div')
-    });
-    if(options){
-      a.open();
-      document.body.appendChild(a.$el);
+    if(typeof options==='boolean'){
+        const hiddenCom=new HiddenConstruct({
+            el:document.createElement('div'),
+        });
+        if(options){
+            document.body.appendChild(hiddenCom.$el);
+        }else{
+            document.body.removeChild(document.getElementById('hidden'));
+        }
     }
-    else{
-      a.close();
-      let b=document.getElementById('p-hidden');
-      document.body.removeChild(b);
-    }
-  }
 };
 
+Vue.prototype.$hidden=hidden;
+
 export default hidden;
-
-
-

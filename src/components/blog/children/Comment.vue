@@ -9,28 +9,36 @@
             {{item.con}}
           </div>
             <div>
-              <span>{{item.pubDate|pubDateFilter2}}</span><a href="javascript:void(0)" @click="reply(item.name,item.id)">回复</a>
+              <span>{{item.pubDate|localFilter}}</span><a href="javascript:void(0)" @click="reply(item.name,item.id)">回复</a>
             </div>
           </div>
           <div v-if="item.child.length>0" class="children">
             <div v-for="(item2,index2) in item.child" :key="index2">
-              <div><span style="font-weight: bold;margin-right: 5px">&gt;</span>{{item2.name1}}:{{item2.con}}</div>
-              <div>{{item2.pubDate|pubDateFilter2}}</div>
+              <div><span style="font-weight: bold;margin-right: 5px;">&gt;</span>{{item2.name1}}:{{item2.con}}</div>
+              <div>{{item2.pubDate|localFilter}}</div>
             </div>
           </div>
         </div>
       </div>
+      <div v-if="commentData.length===0" class="no-data">
+        暂无评论，快来抢沙发！
+      </div>
       <div class="post-comment">
         <textarea :placeholder="commentText" id="comment" v-model="detail"></textarea>
         <div>
-          <button @click="addComment()" class="btn">发表</button>
+          <button @click="addComment()">
+            <img src="../../../assets/img/post.png" alt="">
+            发表</button>
         </div>
       </div>
+      <transition name="opacity">
+        <Loading2 v-if="loading" :float="true"/>
+      </transition>
     </div>
 </template>
 
 <script>
-    import {getComment,addComment} from "../../../api/src";
+    import {getComment,addComment,replyComment} from "../../../api/src";
 
     export default {
         name: "Comment",
@@ -43,63 +51,63 @@
               detail:'',
               inputValue:1,
               len:0, // 评论长度
-              user:'游客'
+              user:'游客',
+              loading:false
             }
           },
         methods:{
           addComment(){
             if(this.detail===''){
-              this.$msg('评论不能为空!');
+              this.$msg.warning({con:'评论不能为空'});
               return
             }
             if(this.flag){
               // 回复评论
-              let postData={
-                u:this.user,
-                con:this.detail,
-                type:false,
-                id:this.id,
-              };
-              addComment(this.$route.params.id,postData).then(res=>{
-                if(res.code===200){
-                  this.$msg(res.msg);
-                  this.detail='';
-                  this.flag=false;
-                  this.commentText='说几句话吧!';
-                  setTimeout(()=>{
-                    getComment(this.$route.params.id).then(res=>{
-                      if(res.code===200){
-                        this.commentData=res.result;
-                        this.len=res.len;
-                      }
-                    })
-                  },1000)
-                }
-              })
+              let postData={u:this.user, con:this.detail};
+              this.loading=true;
+              setTimeout(()=>{
+                replyComment(this.$route.params.id,this.id,postData).then(res=>{
+                  if(res.code===200){
+                    this.loading=false;
+                    this.$msg({con:'回复评论成功'});
+                    this.detail='';
+                    this.flag=false;
+                    this.commentText='说几句话吧!';
+                    setTimeout(()=>{
+                      getComment(this.$route.params.id).then(res=>{
+                        if(res.code===200){
+                          this.commentData=res.result;
+                          this.len=res.len;
+                        }
+                      })
+                    },1000)
+                  }
+                })
+              },1000);
             }
             else{
               // 增加评论
               // type 为true 直接增加评论 为false 回复评论
-              let postData={
-                u:this.user,
-                con:this.detail,
-                type:true,
-              };
-              addComment(this.$route.params.id,postData).then(res=>{
-                if(res.code===200){
-                  this.$msg(res.msg);
-                  this.detail='';
-                  this.commentText='说几句话吧!';
-                  setTimeout(()=>{
-                    getComment(this.$route.params.id).then(res=>{
-                      if(res.code===200){
-                        this.commentData=res.result;
-                        this.len=res.len;
-                      }
-                    })
-                  },1000)
-                }
-              })
+              let postData={u:this.user, con:this.detail};
+              this.loading=true;
+              setTimeout(()=>{
+                addComment(this.$route.params.id,postData).then(res=>{
+                  if(res.code===200){
+                    this.loading=false;
+                    this.$msg({con:res.msg})
+                    this.detail='';
+                    this.commentText='说几句话吧!';
+                    setTimeout(()=>{
+                      getComment(this.$route.params.id).then(res=>{
+                        if(res.code===200){
+                          this.commentData=res.result;
+                          this.len=res.len;
+                        }
+                      })
+                    },1000)
+                  }
+                })
+              },1000);
             }
           },
           reply(name,id){
@@ -135,6 +143,12 @@
     padding: 20px;
     margin: 10px 0;
     background-color: white;
+    position: relative;
+    >.no-data{
+      font-size: 14px;
+      margin: 10px 0;
+      color: #999999;
+    }
     >p{
       padding-bottom: 5px;
       border-bottom: solid 1px #EEEEEE;
@@ -148,28 +162,42 @@
       textarea{
         height: 100px;
         display: block;
-        border: none;
-        outline: none;
+        border: solid 1px #EEEEEE;
         font-size: 15px;
         padding: 10px;
         box-sizing: border-box;
         width: 100%;
-        background-color: #F8F8F8;
+        transition: all .3s;
+        &:focus{
+          border-color: #00a67c;
+        }
       }
       >div{
         display: flex;
         justify-content: flex-end;
-        height: 30px;
-        line-height: 30px;
-        .btn{
-          background-color: #F83091;
+        button{
+          margin-top: 5px;
+          display: flex;
+          align-items: center;
+          border: none;
+          padding: 5px;
+          background-color: white;
+          transition: all .3s;
+          &:hover{
+            background-color: #EEEEEE;
+          }
+          img{
+            width: 20px;
+            height: auto;
+            margin-right: 5px;
+          }
         }
       }
     }
   }
   .item{
     display: flex;
-    padding: 5px 0;
+    padding: 10px 0;
     &-right{
       flex: 1;
       >div{
@@ -178,6 +206,7 @@
           >div{
             &:nth-child(1){
               flex: 1;
+              padding-bottom: 5px;
             }
             &:nth-child(2){
               text-align: right;
@@ -197,11 +226,12 @@
           }
         }
         &:nth-child(2){
-          font-size: 13px;
+          font-size: 14px;
           border-top: solid 1px #999999;
           padding-top: 5px;
           >div{
             display: flex;
+            padding: 5px 0;
             >div{
               &:nth-child(1){
                 flex: 1;
@@ -213,8 +243,6 @@
           }
         }
       }
-
     }
   }
-
 </style>

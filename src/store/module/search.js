@@ -5,7 +5,7 @@ const state={
 
   searchData:'',   // 搜索结果
   searchWord:'',    // 搜索关键字
-  searchPage:1,      // 搜索页码
+  searchPage:0,      // 搜索页码
   searchFlag:false    // 搜索flag显示,false继续加载,true不加载
 
 
@@ -36,7 +36,7 @@ const mutations={
   },
 
   initSearchPage(state){
-    state.searchPage=1;
+    state.searchPage=0;
   },
 
   addSearchPage(state,num){

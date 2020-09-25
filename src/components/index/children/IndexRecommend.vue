@@ -1,6 +1,8 @@
 <template>
     <div class="recommend">
-      <p>推荐阅读</p>
+      <p>
+        <img src="../../../assets/img/recommend.png" alt="">
+        推荐阅读</p>
       <ul>
         <li v-for="(item,index) in blogData">
           <span class="num">{{index+1}}</span>
@@ -44,15 +46,21 @@
 
 <style scoped lang="less">
     .recommend{
-      padding: 10px;
+      padding: 20px;
       background-color: white;
       margin-top: 10px;
       >p{
         padding-bottom: 5px;
         border-bottom: 1px solid #bfbdbe;
+        display: flex;
+        align-items: center;
+        img{
+          width: 19px;
+          height: auto;
+          margin-right: 10px;
+        }
       }
       >ul{
-        list-style: none;
         position: relative;
         margin-top: 7px;
         >li{

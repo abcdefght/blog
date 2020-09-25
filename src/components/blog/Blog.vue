@@ -1,19 +1,24 @@
 <template>
+  <div>
+    <NavBar/>
     <div class="blog">
       <blog-detail></blog-detail>
       <Comment/>
     </div>
+  </div>
 </template>
 
 <script>
     import BlogDetail from './children/BlogDetail';
-    import Comment from './children/Comment'
+    import Comment from './children/Comment';
+    import NavBar from "../NavBar";
 
     export default {
         name: "Blog",
         components:{
           BlogDetail,
-          Comment
+          Comment,
+          NavBar
         }
     }
 </script>
@@ -23,7 +28,7 @@
       max-width: 900px;
       margin: 5px auto;
       >div{
-        padding: 15px;
+        padding: 20px;
         background-color: white;
       }
     }
