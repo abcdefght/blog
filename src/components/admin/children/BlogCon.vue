@@ -1,6 +1,7 @@
 <template>
   <div class="blog-con">
       <div class="con-info">
+      这是我在gitee增加的内容
       </div>
       <div class="blog-table">
         <div class="admin-search">
