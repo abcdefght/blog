@@ -1,7 +1,32 @@
 <template>
   <div class="blog-con">
       <div class="con-info">
-      这是我在gitee增加的内容
+        <div>
+          <p><span>公告</span></p>
+          <div>
+            此后台数据是真实的。由于该账号是测试账号，故删除，修改等操作并未在服务器上修改而是直接在本地修改的。<br/>
+            <p style="font-size: 13px;color: #00a67c;margin-top: 10px;">如果该网站打不开了，大概率是没钱续费云服务器了</p>
+          </div>
+        </div>
+        <div class="data-sum">
+          <p><span style="background-color: #D56464;">数据统计</span></p>
+          <div>
+            <div>博客数目：72篇</div>
+            <div>浏览总数：559</div>
+            <div>评论总数：33</div>
+            <div>分类总数：5</div>
+            <div>标签总数：33</div>
+          </div>
+        </div>
+        <div>
+          <p><span style="background-color: #5299F9;">网站配置信息</span></p>
+          <div>
+            <p>服务器：阿里云服务器（centos7）</p>
+            <p>数据库：mysql8.1</p>
+            <p>后端：django2.2</p>
+            <p>前端：vue2.6+vue-router+webpack4+less+vuex</p>
+          </div>
+        </div>
       </div>
       <div class="blog-table">
         <div class="admin-search">
@@ -18,45 +43,59 @@
             <button @click="sortByComment">按评论数排序<span :style="'transform:rotate('+sortDeg(sort3)+'deg)'"></span></button>
           </div>
         </div>
-        <table>
-          <tbody>
-          <tr class="title">
-            <td>id</td>
-            <td>标题</td>
-            <td>作者</td>
-            <td>标签</td>
-            <td>分类栏目</td>
-            <td>置顶</td>
-            <td>操作</td>
-          </tr>
-          <tr class="my-item" v-for="item in curArr" :key="item.id">
-            <td style="color: #999999;font-size: 13px;text-align: center;">{{item.id}}</td>
-            <td class="title-info">
-              <div v-html="item.title"></div>
-              <div>
-                <span>{{item.comment}}</span>评论
-                <span>{{item.number}}</span>浏览
-                <span>{{item.pubDate|dateFilter(false)}}</span>
-              </div>
-            </td>
-            <td>{{item.author}}</td>
-            <td class="my-tag">
-              <span v-for="tag in item.tag.split(',')" :style="`background-color:`+getColor(tag)" @click="delTag(item.id,tag)">
+        <div class="table">
+          <table>
+            <tbody>
+            <tr class="title">
+              <td>id</td>
+              <td>标题</td>
+              <td>作者</td>
+              <td>标签</td>
+              <td>分类栏目</td>
+              <td>置顶</td>
+              <td>code样式</td>
+              <td>操作</td>
+            </tr>
+            <tr class="my-item" v-for="item in curArr" :key="item.id">
+              <td style="color: #999999;font-size: 13px;text-align: center;">{{item.id}}</td>
+              <td class="title-info">
+                <div v-html="item.title"></div>
+                <div>
+                  <span>{{item.comment}}</span>评论
+                  <span>{{item.number}}</span>浏览
+                  <span>{{item.pubDate|dateFilter(false)}}</span>
+                </div>
+              </td>
+              <td>{{item.author}}</td>
+              <td class="my-tag">
+                <span v-for="tag in item.tag.split(',')" :style="`background-color:`+getColor(tag)" @click="delTag(item.id,tag)">
                 {{tag}}
-              </span>
-              <span @click="addTag(item.id)">+</span>
-            </td>
-            <td>{{item.fileName|fileFilter}}</td>
-            <td>
-              <my-switch :flag="item.top" :params="item.id" @change="changeAccess"></my-switch>
-            </td>
-            <td class="my-option">
-              <button @click="see(item.id)">查看</button>
-              <button @click="delBlog(item.title,item.id)">删除</button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+              </span><span @click="addTag(item.id)">+</span>
+              </td>
+              <td>{{item.fileName|fileFilter}}</td>
+              <td>
+                <base-switch :flag="item.top" :params="item.id" @click="changeAccess"></base-switch>
+              </td>
+              <td>
+                <input type="number" :value="item.bg" :disabled="item.disableFlag">
+                <a href="javascript:void(0)" @click="updateBgFlag($event,item.id,item.disableFlag)">{{item.disableFlag|bgFilter}}</a>
+                <a href="javascript:void(0)" @click="seeCode(item.id)">查看示例</a>
+              </td>
+              <td class="my-option">
+                <button @click="see(item.id)">查看</button>
+                <button @click="delBlog(item.title,item.id)">删除</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <base-drawer
+            v-if="showDrawer"
+            @close="showDrawer=false;">
+            <div class="code" :class="{'bg1':num===1,'bg2':num===2,'bg3':num===3}">
+              <pre><code class="javascript hljs"><table class="hljs-ln"><tbody><tr><td class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="1"></div></td><td class="hljs-ln-code"><div class="hljs-ln-line"><span class="hljs-keyword">const</span> s=<span class="hljs-keyword">new</span> <span class="hljs-built_in">Set</span>();</div></td></tr><tr><td class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="2"></div></td><td class="hljs-ln-code"><div class="hljs-ln-line">s.add(<span class="hljs-number">1</span>); <span class="hljs-comment">// 增加数据</span></div></td></tr><tr><td class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="3"></div></td><td class="hljs-ln-code"><div class="hljs-ln-line">s.add(<span class="hljs-number">2</span>);</div></td></tr><tr><td class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="4"></div></td><td class="hljs-ln-code"><div class="hljs-ln-line">s.add(<span class="hljs-number">3</span>);</div></td></tr><tr><td class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="5"></div></td><td class="hljs-ln-code"><div class="hljs-ln-line"><span class="hljs-built_in">console</span>.log(s.has(<span class="hljs-number">1</span>));  <span class="hljs-comment">// 判断Set中是否有某个值</span></div></td></tr><tr><td class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="6"></div></td><td class="hljs-ln-code"><div class="hljs-ln-line">s.delete(<span class="hljs-number">1</span>);  <span class="hljs-comment">// 删除某个值</span></div></td></tr><tr><td class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="7"></div></td><td class="hljs-ln-code"><div class="hljs-ln-line">s.clear();  <span class="hljs-comment">// 清空set</span></div></td></tr><tr><td class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="8"></div></td><td class="hljs-ln-code"><div class="hljs-ln-line"><span class="hljs-built_in">console</span>.log(s.size);  <span class="hljs-comment">// 获取set的大小</span></div></td></tr></tbody></table></code></pre>
+            </div>
+          </base-drawer>
+        </div>
         <div class="page">
           <ul>
             <li><a href="javascript:void(0)" @click="pre">上一页</a></li>
@@ -76,7 +115,11 @@
           </select>
         </div>
         <transition name="opacity">
-          <Loading2 v-if="loading" :float="true" :type="1"/>
+          <base-loading
+            v-if="loading"
+            :float="true"
+            :type="1">
+          </base-loading>
         </transition>
       </div>
   </div>
@@ -87,7 +130,7 @@ import {getColor} from "../../../assets/js/func";
 import {getAllBlog} from "../../../api/src";
 
 export default {
-  name: "BlogCon",
+  name: "admin-con",
   data(){
     return {
       nowTime:'2020-09-17 12:34',
@@ -102,6 +145,8 @@ export default {
       loading:false, // 加载动画
       word:'', // 搜索关键字
       depArr:[], // 拷贝arr
+      showDrawer:false, // 显示code样式
+      num:0,  // bg值
     }
   },
   created() {
@@ -120,8 +165,10 @@ export default {
     async getData(){
       const res=await getAllBlog();
       if(res.code===200){
-        this.arr=res.result;
-        this.depArr=res.result;
+        let temp1={disableFlag:true}
+        let temp2=res.result.map(x=>({...x,...temp1}))
+        this.arr=temp2;
+        this.depArr=temp2;
         this.genPageArr();
       }
     },
@@ -185,9 +232,9 @@ export default {
           }
         }});
     },
-    changeAccess(flag,params){
-      let item=this.arr.find(x=>x.id===params);
-      item.top=flag;
+    changeAccess(blogId){
+      let item=this.arr.find(x=>x.id===blogId);
+      item.top=!item.top;
       this.$msg.success({con:'修改成功'});
     },
     sortByDate(){
@@ -385,6 +432,28 @@ export default {
         temp1.push(max);
         this.pageArr=temp1;
       }
+    },
+    updateBgFlag(e,blogId,flag){
+      let item=this.arr.find(x=>x.id===blogId);
+      item.disableFlag=!item.disableFlag;
+      let value=parseInt(e.currentTarget.parentNode.querySelector('input').value,10);
+      if(!flag&&value!==item.bg){
+        if([1,2,3].indexOf(value)!==-1){
+          this.loading=true;
+          setTimeout(()=>{
+            item.bg=value;
+            this.loading=false;
+            this.$msg.success({con:'修改成功'});
+          },600);
+        }
+        else{
+          this.$msg.error({con:'输入框值应该在1,2,3之中'})
+        }
+      }
+    },
+    seeCode(blogId){
+      this.showDrawer=true;
+      this.num=blogId
     }
   },
   filters:{
@@ -393,6 +462,9 @@ export default {
     },
     'pageFilter':function (value){
       return value>0?value:'...'
+    },
+    'bgFilter':function (value){
+      return value?'修改':'确定'
     }
   },
   watch:{
@@ -421,60 +493,83 @@ export default {
   margin: 10px;
   .blog-table{
       position: relative;
-      flex: 1;
       padding: 20px;
       background-color: white;
-      overflow: auto;
-      >table{
+      >.table{
         width: 100%;
-        border-collapse: collapse;
-        .title{
-          background-color: #F2F2F2;
-        }
-        .my-item{
-          font-size: 14px;
-          font-family: Small-Italic,sans-serif;
-          transition: all .3s;
-          .my-tag{
-            span{
-              color: white;
-              padding: 4px 8px;
-              transition: all .3s;
-              cursor: pointer;
-              &:nth-child(n+2){
-                margin-left: 3px;
-              }
-              &:last-child{
-                background-color: #999999;
-              }
-            }
-          }
-          .my-option{
-            button{
-              border: none;
-              background-color: #00a67c;
-              padding: 3px 8px;
-              color: white;
-              &:nth-child(2){
-                background-color: #F93D57;
-              }
-            }
-          }
-          .title-info{
-            >div{
-              &:nth-child(2){
-                color: #999999;
-                font-size: 13px;
-              }
-            }
-          }
-          &:hover{
+        overflow: auto;
+        position: relative;
+        >table{
+          width: 100%;
+          border-collapse: collapse;
+          background-color: white;
+          .title{
             background-color: #F2F2F2;
           }
-        }
-        td{
-          border: solid 1px #E7E3E4;
-          padding: 8px;
+          .my-item{
+            font-size: 14px;
+            font-family: Small-Italic,sans-serif;
+            transition: all .3s;
+            .my-tag{
+              span{
+                display: inline-block;
+                color: white;
+                padding: 4px 8px;
+                transition: all .3s;
+                cursor: pointer;
+                &:nth-child(n+2){
+                  margin-left: 3px;
+                }
+                &:last-child{
+                  background-color: #999999;
+                }
+              }
+            }
+            .my-option{
+              button{
+                border: none;
+                background-color: #00a67c;
+                padding: 3px 8px;
+                color: white;
+                &:nth-child(2){
+                  background-color: #F93D57;
+                }
+              }
+            }
+            .title-info{
+              >div{
+                &:nth-child(2){
+                  color: #999999;
+                  font-size: 13px;
+                }
+              }
+            }
+            &:hover{
+              background-color: #F2F2F2;
+            }
+          }
+          td{
+            border: solid 1px #E7E3E4;
+            padding: 8px;
+            input{
+              height: 26px;
+              border: solid 1px #EEEEEE;
+              padding-left: 10px;
+              width: 30px;
+              transition: all .3s;
+              &:focus{
+                box-shadow: 0 0 0 3px rgba(90,139,255,0.2);
+                border-color: #00a67c;
+              }
+            }
+            >a{
+              color: #999999;
+              transition: color .3s;
+              &:hover{
+                color: #009688;
+              }
+            }
+          }
         }
       }
     }
@@ -484,6 +579,7 @@ export default {
     font-size: 13px;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     ul{
       display: flex;
       li{
@@ -533,6 +629,7 @@ export default {
     margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     >div{
       display: flex;
       align-items: center;
@@ -580,4 +677,65 @@ export default {
       }
     }
   }
+.con-info{
+  margin: 10px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  gap: 10px;
+  >div{
+    flex: 1;
+    background-color: white;
+    padding: 10px;
+    &.data-sum{
+      >div{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px;
+      }
+    }
+    >p{
+      padding-bottom: 10px;
+      span{
+        padding: 3px 5px;
+        font-size: 12px;
+        background-color: #00a67c;
+        color: white;
+      }
+    }
+    >div{
+      color: #999999;
+      font-size: 15px;
+    }
+  }
+}
+.code{
+  margin: 0 0 0 10px;
+  pre{
+    margin: 0;
+  }
+}
+@media screen  and (max-width: 875px){
+  .table{
+    >table
+    tr{
+      >td{
+        &:nth-child(2){
+          min-width: 240px;
+        }
+       &:nth-child(4){
+         min-width: 250px;
+       }
+        &:nth-child(5){
+          min-width: 120px;
+        }
+        &:last-child{
+          min-width: 100px;
+        }
+        &:nth-last-child(2){
+          min-width: 180px;
+        }
+      }
+    }
+  }
+}
 </style>

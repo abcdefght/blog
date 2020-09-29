@@ -76,7 +76,7 @@
       <div class="next-page" v-if="flag2">
         <button @click="getNextData">下一页</button>
       </div>
-      <Loading2 v-else style="margin:10px 0;"/>
+      <base-loading v-else style="margin:10px 0;"></base-loading>
     </div>
 </template>
 
@@ -84,7 +84,7 @@
   import {getRecommend} from "../../../api/src";
 
   export default {
-        name: "TopBlog",
+        name: "index-blog",
         data(){
           return{
             result1:[],

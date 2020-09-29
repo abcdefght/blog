@@ -18,7 +18,7 @@
 
 <script>
     export default {
-        name: "Carouse",
+        name: "index-carouse",
         data(){
           return {
             num:1,

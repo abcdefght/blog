@@ -74,7 +74,7 @@
         </div>
       </div>
     </div>
-    <Loading2 style="margin: 10px 0;" v-show="loadingFlag"/>
+    <base-loading2 style="margin: 10px 0;" v-show="loadingFlag"></base-loading2>
   </div>
 </template>
 

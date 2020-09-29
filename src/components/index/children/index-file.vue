@@ -16,7 +16,7 @@
     import {getFile} from '../../../api/src';
 
     export default {
-        name: "BlogFile",
+        name: "index-file",
         data(){
           return {
             arr:[]

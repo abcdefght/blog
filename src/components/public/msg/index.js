@@ -1,7 +1,7 @@
-import MsgComponent from './Msg.vue';
+import BaseMsg from './base-msg.vue';
 import Vue from 'vue';
 
-const msgConstruct=Vue.extend(MsgComponent);
+const msgConstruct=Vue.extend(BaseMsg);
 
 const typeArr=['success','info','warning','error'];
 

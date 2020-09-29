@@ -45,9 +45,9 @@ export function GET(url, params={}) {
 
 export function POST(url, data,contentType='applications/json') {
   return new Promise(((resolve, reject) => {
-    axios.post(url,data,{
-      headers:{contentType:contentType
-    }}).then(res=>{
+    axios.post(url,data,
+      {headers:{contentType:contentType}}
+      ).then(res=>{
       resolve(res.data);
     }).catch(error=>{
       reject(error.data);

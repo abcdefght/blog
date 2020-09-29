@@ -21,7 +21,7 @@
 <script>
     import {getMostHot} from '../../../api/src'
     export default {
-        name: "IndexRecommend",
+        name: "index-recommend",
         data(){
           return {
             blogData:[]

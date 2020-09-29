@@ -34,7 +34,7 @@
     import {getUser} from "../../../api/src";
 
     export default {
-        name: "UserShow",
+        name: "index-user",
         data(){
           return {
             user:{

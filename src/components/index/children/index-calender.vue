@@ -34,7 +34,7 @@
 
 <script>
     export default {
-        name: "calender",
+        name: "index-calender",
         data(){
           return {
               year:2019,  // 设置当前年份

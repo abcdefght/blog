@@ -18,9 +18,8 @@
 
 <script>
     import hidden from '../hidden';
-
     export default {
-        name: "Dialog",
+        name: "v-dialog",
         data(){
             return {
                 flag:false
@@ -74,7 +73,8 @@
     .dialog{
         position: fixed;
         background-color: white;
-        min-width: 360px;
+        max-width: 360px;
+        min-width: 300px;
         padding: 20px;
         z-index: 1000;
         left: 50%;

@@ -9,7 +9,7 @@
 
 <script>
     export default {
-        name: "Notice"
+        name: "index-notice"
     }
 </script>
 

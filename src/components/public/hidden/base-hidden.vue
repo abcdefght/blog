@@ -6,7 +6,7 @@
 
 <script>
     export default {
-        name: "Hidden",
+        name: "base-hidden",
     }
 </script>
 

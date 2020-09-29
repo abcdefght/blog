@@ -7,7 +7,7 @@
 
 <script>
     export default {
-        name: "my-switch",
+        name: "base-switch",
         data(){
             return {
                 flag2:false,  // 点击波浪效果
@@ -31,17 +31,21 @@
         },
       methods:{
             toggle(){
-              this.flag2=true;
-              this.curFlag=!this.curFlag;
-              setTimeout(()=>{
-                this.flag2=false;
-                this.$emit('change', this.curFlag, this.params);
-              },600);
+              this.$emit('click',this.params)
             }
         },
         computed:{
           infoText(){
             return this.curFlag?this.text.split('|')[0]:this.text.split('|')[1];
+          }
+        },
+        watch:{
+          'flag':function (newVal){
+            this.flag2=true;
+            this.curFlag=newVal;
+            setTimeout(()=>{
+              this.flag2=false;
+            },600);
           }
         }
     }

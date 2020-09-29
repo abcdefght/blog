@@ -1,7 +1,7 @@
-import Dialog from './Dialog.vue';
+import BaseDialog from './base-dialog.vue';
 import Vue from 'vue';
 
-const dialogConstruct=Vue.extend(Dialog);
+const dialogConstruct=Vue.extend(BaseDialog);
 
 /*
 * 弹出框组件

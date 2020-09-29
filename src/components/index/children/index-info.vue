@@ -13,7 +13,7 @@
 
 <script>
     export default {
-        name: "info",
+        name: "index-info",
     }
 </script>
 

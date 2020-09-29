@@ -59,7 +59,7 @@
   import {getColor} from "../../../assets/js/func";
 
   export default {
-        name: "BlogDetail",
+        name: "blog-detail",
         data(){
           return {
             detail:"",

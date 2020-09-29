@@ -32,7 +32,10 @@
         </div>
       </div>
       <transition name="opacity">
-        <Loading2 v-if="loading" :float="true"/>
+        <base-loading2
+          v-if="loading"
+          :float="true">
+        </base-loading2>
       </transition>
     </div>
 </template>
@@ -41,7 +44,7 @@
     import {getComment,addComment,replyComment} from "../../../api/src";
 
     export default {
-        name: "Comment",
+        name: "blog-comment",
         data(){
             return {
               commentData:[],

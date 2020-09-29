@@ -7,15 +7,17 @@ import * as all from './assets/js/filter';
 import msg from './components/public/msg';
 import hidden from './components/public/hidden';
 import dialog from './components/public/dialog';
-import loading2 from "./components/public/loading2";
-import mySwitch from "./components/public/switch";
+import BaseLoading from "./components/public/loading";
+import BaseSwitch from "./components/public/switch";
+import BaseDrawer from './components/public/drawer'
 import VueLazy from 'vue-lazyload';
 
 Vue.use(msg);
 Vue.use(hidden);
 Vue.use(dialog);
-Vue.use(mySwitch);
-Vue.use(loading2);
+Vue.use(BaseSwitch);
+Vue.use(BaseLoading);
+Vue.use(BaseDrawer)
 
 
 Object.keys(all).forEach(key=>{
@@ -25,8 +27,8 @@ Object.keys(all).forEach(key=>{
 Vue.prototype.$axios=axios;
 
 Vue.use(VueLazy,{
-  error:'static/img/loading2.jpg',
-  loading:'static/img/loading2.jpg'
+  error:'static/img/loading.jpg',
+  loading:'static/img/loading.jpg'
 });
 
 

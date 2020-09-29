@@ -14,7 +14,7 @@
     import {getColor} from "../../../assets/js/func";
 
     export default {
-        name: "tags",
+        name: "index-tags",
         data(){
           return {
             result:[],

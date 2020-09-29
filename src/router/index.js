@@ -6,31 +6,32 @@ import {getToken} from '../assets/js/func'
 
 // 路由懒加载
 const Blog=()=>import('../components/blog/Blog.vue');
-const BlogDetail=()=>import('../components/blog/children/BlogDetail.vue');
-const DateDir=()=>import('../components/DateDir.vue');
+const BlogDetail=()=>import('../components/blog/children/blog-detail.vue');
+const DateDir=()=>import('../components/date-dir.vue');
 const Search=()=>import('../components/Search.vue');
-const TagsDir=()=>import('../components/TagsDir.vue');
-const Date=()=>import('../components/index/children/Date.vue');
-const Tags=()=>import('../components/index/children/Tags.vue');
-const Calender=()=>import('../components/index/children/Calender.vue');
-const Carouse=()=>import('../components/index/children/Carouse.vue');
-const Info=()=>import('../components/index/children/Info.vue');
+const TagsDir=()=>import('../components/tags-dir.vue');
+const IndexDate=()=>import('../components/index/children/index-date.vue');
+const IndexTags=()=>import('../components/index/children/index-tags.vue');
+const IndexCalender=()=>import('../components/index/children/index-calender.vue');
+const IndexCarouse=()=>import('../components/index/children/index-carouse.vue');
+const IndexInfo=()=>import('../components/index/children/index-info.vue');
 const NavBar=()=>import('../components/NavBar.vue');
 const Error404=()=>import('../components/Error404.vue');
 const Index=()=>import('../components/index/Index.vue');
-const TopBlog=()=>import('../components/index/children/TopBlog.vue');
-const UserShow=()=>import('../components/index/children/UserShow.vue');
-const IndexRecommend=()=>import('../components/index/children/IndexRecommend');
-const Notice=()=>import('../components/index/children/Notice');
-const FriendLink=()=>import('../components/index/children/FriendLink');
-const Comment=()=>import('../components/blog/children/Comment');
+const IndexBlog=()=>import('../components/index/children/index-blog.vue');
+const IndexUser=()=>import('../components/index/children/index-user.vue');
+const IndexRecommend=()=>import('../components/index/children/index-recommend');
+const IndexNotice=()=>import('../components/index/children/index-notice');
+const IndexLink=()=>import('../components/index/children/index-link');
+const BlogComment=()=>import('../components/blog/children/blog-comment');
 const Test=()=>import('../components/Test');
-const BlogFile=()=>import('../components/index/children/BlogFile');
-const FileDir=()=>import('../components/FileDir');
+const IndexFile=()=>import('../components/index/children/index-file');
+const FileDir=()=>import('../components/file-dir');
 const Word=()=>import('../components/Word');
 const Login=()=>import('../components/Login')
 const Admin=()=>import('../components/admin/Admin')
-const BlogCon=()=>import('../components/admin/children/BlogCon')
+const AdminCon=()=>import('../components/admin/children/admin-con')
+const AdminFile=()=>import('../components/admin/children/admin-file')
 
 Vue.use(VueCookies);
 Vue.use(Router);
@@ -46,7 +47,8 @@ const router=new Router({
     {path:'/word',name:'Word',component:Word},
     {path:'/login',name:'Login',component:Login},
     {path:'/admin',name:'Admin',component:Admin,children:[
-        {path:'/admin/blog-con',name:'BlogCon',component:BlogCon}
+        {path:'/admin/con',name:'AdminCon',component:AdminCon},
+        {path:'/admin/file',name:'AdminFile',component:AdminFile}
       ]},
     {path:"*", name:"404", component:Error404},
     {path:'/test',component:Test},

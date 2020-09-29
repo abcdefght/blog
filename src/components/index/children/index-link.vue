@@ -12,7 +12,7 @@
 
 <script>
     export default {
-        name: "FriendLink"
+        name: "index-link"
     }
 </script>
 

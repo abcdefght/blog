@@ -13,7 +13,7 @@
     import {getDateBlog} from "../../../api/src";
 
     export default {
-        name: "date",
+        name: "index-date",
         data(){
           return {
             dateData:[]

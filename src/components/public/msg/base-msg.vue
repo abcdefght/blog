@@ -16,7 +16,7 @@
 
 <script>
     export default {
-        name: "Msg",
+        name: "base-msg",
         data(){
           return {
               flag:false

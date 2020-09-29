@@ -1,7 +1,7 @@
-import HiddenComponent from './Hidden.vue';
+import BaseHiddenComponent from './base-hidden.vue';
 import Vue from 'vue';
 
-const HiddenConstruct=Vue.extend(HiddenComponent);
+const HiddenConstruct=Vue.extend(BaseHiddenComponent);
 
 /*
 * 笼罩层组件

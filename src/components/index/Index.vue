@@ -3,56 +3,59 @@
     <NavBar/>
     <div class="container">
       <div class="one">
-        <Carouse/>
+        <index-carouse></index-carouse>
         <index-recommend></index-recommend>
-        <TopBlog/>
+        <index-blog></index-blog>
       </div>
       <div class="two">
-        <Calender/>
-        <Notice/>
-        <user-show></user-show>
-        <blog-file></blog-file>
-        <Date/>
-        <Tags/>
-        <friend-link></friend-link>
+        <index-calender></index-calender>
+        <index-notice></index-notice>
+        <index-user></index-user>
+        <index-file></index-file>
+        <index-date></index-date>
+        <index-tags></index-tags>
+        <index-link></index-link>
       </div>
     </div>
     <div>
-      <Info/>
+      <index-info></index-info>
     </div>
   </div>
 </template>
 
 <script>
-import Calender from './children/Calender'
-import Carouse from './children/Carouse'
-import Info from './children/Info'
-import TopBlog from './children/TopBlog';
-import IndexRecommend from './children/IndexRecommend';
-import FriendLink from './children/FriendLink';
-import Date from './children/Date';
-import UserShow from './children/UserShow';
-import Tags from './children/Tags';
-import Notice from './children/Notice';
-import BlogFile from './children/BlogFile';
+import IndexCalender from './children/index-calender'
+import IndexCarouse from './children/index-carouse'
+import IndexInfo from './children/index-info'
+import IndexBlog from './children/index-blog';
+import IndexRecommend from './children/index-recommend';
+import IndexLink from './children/index-link';
+import IndexDate from './children/index-date';
+import IndexUser from './children/index-user';
+import IndexTags from './children/index-tags';
+import IndexNotice from './children/index-notice';
+import IndexFile from './children/index-file';
 import NavBar from "../NavBar";
 
 export default {
   name: 'App',
   components: {
-    Calender,
-    Carouse,
-    Info,
-    TopBlog,
+    IndexCalender,
+    IndexCarouse,
+    IndexInfo,
+    IndexBlog,
     IndexRecommend,
-    FriendLink,
-    Date,
-    UserShow,
-    Tags,
-    Notice,
-    BlogFile,
+    IndexLink,
+    IndexDate,
+    IndexUser,
+    IndexTags,
+    IndexNotice,
+    IndexFile,
     NavBar
   },
+  created() {
+    this.$axios.get('https://www.uhnehc.top/api/blog/1').then(res=>console.log(res));
+  }
 }
 </script>
 

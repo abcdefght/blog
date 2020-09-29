@@ -1,5 +1,5 @@
 <template>
-    <div class="loading2" :class="[{'loading-active':float},'num'+type]">
+    <div class="loading" :class="[{'loading-active':float},'num'+type]">
       <div></div>
       <div>
         <img src="../img/loading.png" alt="">
@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: "Loading2",
+  name: "base-loading",
   props:{
     con:{
       type:String,
@@ -22,7 +22,10 @@ export default {
     },
     type:{
       type:Number,
-      default:0
+      default:0,
+      validator:function (value){
+        return [0,1].indexOf(value)!==-1
+      }
     }
   }
 }
@@ -37,7 +40,7 @@ export default {
       transform: rotate(360deg);
     }
   }
-  .loading2{
+  .loading{
     font-size: 14px;
     >div{
       &:nth-child(2){
