@@ -1,27 +1,43 @@
 .paging{
   max-width: 800px;
-  height: 36px;
-  margin: 0 auto;
-  a{
-    padding: 3px 8px;
-    color: black;
-    background-color: white;
-    margin-right: 5px;
-    font-size: 14px;
-  }
-  .page{
-    transition: all .3s;
-    &:hover{
-      color: white;
-      background-color: #00a67c;
+  margin: 10px auto;
+  font-size: 14px;
+  ul{
+    display: flex;
+    align-items: center;
+    li{
+      &:nth-last-child(2){
+        a{
+          background-color: #00a67c;
+          color: white;
+        }
+      }
+      &:nth-child(1){
+        a{
+          background-color: #00a67c;
+          color: white;
+        }
+      }
+      span{
+        margin: 0 5px;
+      }
+      a{
+        color: black;
+        padding: 5px 10px;
+        background-color: white;
+        transition: all .3s;
+        &:hover{
+          background-color: #00a67c;
+          color: white;
+        }
+        &.active{
+          background-color: #1eb6fd;
+          color: white;
+        }
+      }
+      &:nth-child(n+2){
+        margin-left: 5px;
+      }
     }
-  }
-  .active{
-    background-color: #00a67c;
-    color: white;
-  }
-  .pre,.next{
-    background-color: #2ba4e7;
-    color: white;
   }
 }

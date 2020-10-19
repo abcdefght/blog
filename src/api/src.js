@@ -1,33 +1,44 @@
-import {GET,POST} from "./request";
+import {request} from "./request";
 import base from './base';
-
 
 /*
 * 获取博主全部归档博客
 * */
 export const getDateBlog=()=>{
-  return GET(`${base.host}/date`);
+  return request({
+    url:`${base.host}/date`,
+    method:'get'
+  })
 };
 
 /*
 * 获取博主全部标签信息
 * */
 export const getTagBlog=()=>{
-  return GET(`${base.host}/tag`);
+  return request({
+    url:`${base.host}/tag`,
+    method:'get'
+  })
 };
 
 /*
 * 获取博主信息
 * */
 export const getUser=()=>{
-  return GET(`${base.host}/user`);
+  return request({
+    url:`${base.host}/user`,
+    method:'get'
+  })
 };
 
 /*
 * 获取主页最热门的文章
 * */
 export const getMostHot=()=>{
-  return GET(`${base.host}/blog/hot`);
+  return request({
+    url:`${base.host}/blog/hot`,
+    method:'get'
+  })
 };
 
 /*
@@ -36,7 +47,11 @@ export const getMostHot=()=>{
 * @param {Number} size
 * */
 export const getRecommend=({page,size})=>{
-  return GET(`${base.host}/blog/recommend`,{page,size})
+  return request({
+    url:`${base.host}/blog/recommend`,
+    method:'get',
+    params:{page,size}
+  })
 };
 
 /*
@@ -46,7 +61,11 @@ export const getRecommend=({page,size})=>{
 * @param {Number} size
 * */
 export const getUserDate=({date,page,size})=>{
-  return GET(`${base.host}/date/${date}`,{page,size});
+  return request({
+    url:`${base.host}/date/${date}`,
+    method:'get',
+    params:{page,size}
+  })
 };  // 分页查询用户归档博客
 
 /*
@@ -56,24 +75,35 @@ export const getUserDate=({date,page,size})=>{
 * @param {Number} size 每页返回多少条
 * */
 export const getUserTag=({tag,page,size})=>{
-  return GET(`${base.host}/tag/${tag}`,{page,size});
+  return request({
+    url:`${base.host}/tag/${tag}`,
+    method:'get',
+    params:{page,size}
+  })
 };
 
 /*
-* 搜素博客
+* 搜索博客
 * @param {String} word 查询关键字
 * @param {Number} page 页码
 * @param {Number} size 每页返回多少条
 * */
 export const Search=({word,page,size})=>{
-  return GET(`${base.host}/search`,{word,page,size});
+  return request({
+    url:`${base.host}/search`,
+    method:'get',
+    params:{word,page,size}
+  })
 };
 
 /*
 * 获取全部分类
 * */
 export const getFile=()=>{
-  return GET(`${base.host}/file`);
+  return request({
+    url:`${base.host}/file`,
+    method:'get'
+  })
 };
 
 /*
@@ -81,7 +111,10 @@ export const getFile=()=>{
 * @param {Number} id
 * */
 export const getFileDetail=id=>{
-  return GET(`${base.host}/file/${id}`);
+  return request({
+    url:`${base.host}/file/${id}`,
+    method:'get'
+  })
 };
 
 /*
@@ -89,7 +122,10 @@ export const getFileDetail=id=>{
 * @param {Number} id
 * */
 export const getBlog=id=>{
-  return GET(`${base.host}/blog/${id}`);
+  return request({
+    url:`${base.host}/blog/${id}`,
+    method:'get'
+  })
 };
 
 /*
@@ -97,7 +133,10 @@ export const getBlog=id=>{
 * @param {Number} blogId
 * */
 export const getComment=blogId=>{
-  return GET(`${base.host}/blog/${blogId}/comment`,{});
+  return request({
+    url:`${base.host}/blog/${blogId}/comment`,
+    method:'get'
+  })
 };
 
 /*
@@ -106,7 +145,11 @@ export const getComment=blogId=>{
 * @param {Object} data
 * */
 export const addComment=(blogId,data)=>{
-  return POST(`${base.host}/blog/${blogId}/comment`,data);
+  return request({
+    url:`${base.host}/blog/${blogId}/comment`,
+    method:'post',
+    params:data
+  })
 };
 
 /*
@@ -116,7 +159,11 @@ export const addComment=(blogId,data)=>{
 * @param {Object} data
 * */
 export const replyComment=(blogId,commentId,data)=>{
-  return POST(`${base.host}/blog/${blogId}/comment/${commentId}`,data);
+  return request({
+    url:`${base.host}/blog/${blogId}/comment/${commentId}`,
+    method:'post',
+    params:data
+  })
 }
 
 
@@ -125,7 +172,10 @@ export const replyComment=(blogId,commentId,data)=>{
 * @param {Number} id
 * */
 export const addScan=id=>{
-  return POST(`${base.host}/blog/${id}/number`,{});
+  return request({
+    url:`${base.host}/blog/${id}/number`,
+    method:'post'
+  })
 };
 
 /*
@@ -134,7 +184,11 @@ export const addScan=id=>{
 * @param {String} con 留言内容
 * */
 export const addWord=({access,con})=>{
-  return POST(`${base.host}/word`,{access,con});
+  return request({
+    url:`${base.host}/word`,
+    method:'post',
+    params:{access,con}
+  })
 }
 
 /*
@@ -144,7 +198,11 @@ export const addWord=({access,con})=>{
 * @param {Number} commentId 待回复留言的id
 * */
 export const replyWord=({access,con,commentId})=>{
-  return POST(`${base.host}/word/${commentId}`,{access,con});
+  return request({
+    url:`${base.host}/word/${commentId}`,
+    method:'post',
+    params:{access,con}
+  })
 }
 
 /*
@@ -153,27 +211,83 @@ export const replyWord=({access,con,commentId})=>{
 * @param {Number} size 每页返回多少条
 * */
 export const getWord=({page,size})=>{
-  return GET(`${base.host}/word`,{page,size});
+  return request({
+    url:`${base.host}/word`,
+    method:'get',
+    params:{page,size}
+  })
 }
 
 /*
+* 查询全部留言
+* */
+export const getAllWord=()=>{
+  return request({
+    url:`${base.host}/word`,
+    method:'get'
+  })
+}
+
+/*
+* 查询回复的留言
 * @param {Number} page 页码
 * @param {Number} size 每页返回多少条
 * @param {Number} commentId 待留言Id
 * */
 export const getWordDetail=({page,size,commentId})=>{
-  return GET(`${base.host}/word/${commentId}`,{page,size});
+  return request({
+    url:`${base.host}/word/${commentId}`,
+    method:'get',
+    params:{page,size}
+  })
+}
+
+/*
+* 查询全部回复的留言
+* */
+export const getAllWordDetail=({commentId})=>{
+  return request({
+    url:`${base.host}/word/${commentId}`,
+    method:'get'
+  })
 }
 
 
+/*
+* 验证是否登陆
+* */
+export const checkLogin=()=>{
+  return request({
+    url:`${base.host}/check-login`,
+    method:'post'
+  })
+}
+
+
+/*
+* 用户登陆
+* */
 export const login=({user,pwd,code})=>{
-  return POST(`${base.host}/login`,{user,pwd,code});
+  return request({
+    url:`${base.host}/login`,
+    method:'post',
+    params:{user,pwd,code}
+  })
+}
+
+/*
+* 查询全部博客
+* */
+export const getAllBlog=()=>{
+  return request({
+    url:`${base.host}/admin/blog`,
+    method:'get'
+  })
 }
 
 export const test=()=>{
-  return GET(`${base.host}/test/100`,{});
-}
-
-export const getAllBlog=()=>{
-  return GET(`${base.host}/admin/blog`,{});
+  return request({
+    url:`${base.host}/test/100`,
+    method:'get'
+  })
 }

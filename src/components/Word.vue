@@ -6,26 +6,28 @@
       <div class="comment">
         <textarea v-model="con" :placeholder="text"></textarea>
         <button :class="{'active':con.length>0}" @click="addComment">
-          <img src="../assets/img/post2.png" alt="">发表
+          <i class="el-icon-edit"></i>发表
         </button>
       </div>
+      <div class="word-info">共有<span>{{len}}</span>条数据</div>
     </div>
-    <div class="word">
+    <div class="word" v-if="showWord">
       <div class="word-left">
         <div v-for="(item,index) in leftArr" :key="item.id">
           <div>
-            <span class="name">{{item.access|userFilter}}<span>博主</span></span>
+            <span class="name">{{item.access|userFilter}}<span v-if="item.access">博主</span></span>
             <span class="content">:{{item.con}}</span>
           </div>
          <div class="bottom">
            <div class="reply" @click="reply(item.id)">
-             <img src="../assets/img/reply.png" alt="">
+             <i class="el-icon-position"></i>
              回复</div>
            <div class="post">
-             <img src="../assets/img/time.png" alt="">
+             <i class="el-icon-time"></i>
              {{item.pubDate|localFilter}}</div>
            <div class="see-reply" @click="getReplyComment(item.id,true,item.count)">
-             <img src="../assets/img/replycomment.png" alt="">{{item.count}}条回复</div>
+              <i class="el-icon-chat-line-square"></i>
+             {{item.count}}条回复</div>
          </div>
           <div class="children" style="display: none" :class="'num-'+item.id">
             <div class="sort">时间：<img src="../assets/img/sort2.png" alt="" @click="sortChildren(item.id,$event,true)"></div>
@@ -51,13 +53,14 @@
           </div>
           <div class="bottom">
             <div class="reply" @click="reply(item.id)">
-              <img src="../assets/img/reply.png" alt="">
-              回复</div>
+              <i class="el-icon-position"></i>回复
+            </div>
             <div class="post">
-              <img src="../assets/img/time.png" alt="">
-              {{item.pubDate|localFilter}}</div>
+              <i class="el-icon-time"></i>{{item.pubDate|localFilter}}
+            </div>
             <div class="see-reply" @click="getReplyComment(item.id,false,item.count)">
-              <img src="../assets/img/replycomment.png" alt="">{{item.count}}条回复</div>
+              <i class="el-icon-chat-dot-square"></i>{{item.count}}条回复
+            </div>
           </div>
           <div class="children" style="display: none" :class="'num-'+item.id">
             <div class="sort">时间：<img src="../assets/img/sort2.png" alt="" @click="sortChildren(item.id,$event,false)"></div>
@@ -74,13 +77,13 @@
         </div>
       </div>
     </div>
-    <base-loading2 style="margin: 10px 0;" v-show="loadingFlag"></base-loading2>
+    <base-loading style="margin: 10px 0;" v-if="loadingFlag"></base-loading>
   </div>
 </template>
 
 <script>
-    import {addWord,replyWord,getWord,getWordDetail} from "../api/src";
-    import NavBar from "./NavBar";
+    import {addWord,replyWord,getWord,getWordDetail} from "@/api/src";
+    import NavBar from "./Navbar";
 
     export default {
         name: "Word",
@@ -94,7 +97,15 @@
             replyId:0, // 回复评论的id
             page:1,
             loadingFlag:false,  // 下一页加载flag
-            flag2:true  // 下一页flag
+            flag2:true,  // 下一页flag
+          }
+        },
+        computed:{
+          len(){
+            return this.leftArr.length+this.rightArr.length;
+          },
+          showWord(){
+            return this.leftArr.length>0||this.rightArr.length>0
           }
         },
         created() {
@@ -160,7 +171,7 @@
               if(!this.flag){
                 addWord({access:false,con:this.con}).then(res=>{
                   if(res.code===200){
-                    this.$msg({con:'留言成功'});
+                    this.$msg.success('留言成功');
                     setTimeout(()=>{
                       location.reload();
                     },1000)
@@ -170,7 +181,7 @@
               else{
                 replyWord({access:false,commentId:this.replyId,con:this.con}).then(res=>{
                   if(res.code===200){
-                    this.$msg({con:'回复留言成功'});
+                    this.$msg.success('回复留言成功');
                     setTimeout(()=>{
                       location.reload();
                     },1000)
@@ -278,6 +289,7 @@
                       else {
                         this.$msg('没有数据了');
                         this.flag2=false;
+                        this.loadingFlag=false;
                       }
                     }
                   })
@@ -293,7 +305,7 @@
         },
         components:{
           NavBar
-        }
+        },
     }
 </script>
 
@@ -320,24 +332,23 @@
           box-sizing: border-box;
           padding: 20px;
           .content{
-            color: #999999;
             font-size: 15px;
           }
           .bottom{
             display: flex;
             margin-top: 10px;
             flex-wrap: wrap;
+            i{
+              color: black;
+              margin-right: 5px;
+              font-size: 16px;
+            }
             .post,.reply,.see-reply{
               color: #999999;
               margin-right: 10px;
               font-size: 14px;
               display: flex;
               align-items: center;
-              img{
-                width: 16px;
-                height: auto;
-                margin-right: 5px;
-              }
             }
             .reply,.see-reply{
               transition: all .3s;
@@ -356,6 +367,7 @@
             color: #999999;
           }
           .name{
+            color: #5893c2;
             span{
               margin-left: 5px;
               padding: 3px 6px;
@@ -432,28 +444,30 @@
           font-size: 16px;
           transition: all .3s;
           &:focus{
-            border-color: #009688;
+            border-color: #999999;
           }
         }
         button{
           display: flex;
           align-items: center;
           border: none;
-          color: white;
-          background-color: #999999;
           padding: 5px 10px;
-          transition: all .3s;
-          &:hover{
-            opacity: .7;
+          transition: color .3s;
+          i{
+            margin-right: 5px;
+            font-size: 16px;
           }
           &.active{
-            background-color: #1eb6fd;
+            color: #00a67c;
           }
-          img{
-            width: 20px;
-            height: auto;
-            margin-right: 5px;
-          }
+        }
+      }
+      .word-info{
+        margin-top: 10px;
+        color: #999999;
+        span{
+          color: #009688;
+          margin: 0 5px;
         }
       }
     }

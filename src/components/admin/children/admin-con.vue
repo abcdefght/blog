@@ -11,11 +11,11 @@
         <div class="data-sum">
           <p><span style="background-color: #D56464;">数据统计</span></p>
           <div>
-            <div>博客数目：72篇</div>
-            <div>浏览总数：559</div>
-            <div>评论总数：33</div>
-            <div>分类总数：5</div>
-            <div>标签总数：33</div>
+            <div>博客数目：{{depArr.length}}篇</div>
+            <div>浏览总数：{{allNumber}}</div>
+            <div>评论总数：{{allComment}}</div>
+            <div>分类总数：{{allFile}}</div>
+            <div>标签总数：{{allTag}}</div>
           </div>
         </div>
         <div>
@@ -32,8 +32,8 @@
         <div class="admin-search">
           <div>
             <input type="text" placeholder="按标题查询" v-model="word" @keydown.enter="adminSearch">
-            <button @click="adminSearch">搜索</button>
-            <button style="background-color: #D56464" @click="reloadData">重新导入数据</button>
+            <button @click="adminSearch"><i class="el-icon-search" style="margin-right: 3px"></i>搜索</button>
+            <button style="background-color: #D56464" @click="reloadData"><i class="el-icon-refresh-left" style="margin-right: 3px;"></i>重新导入数据</button>
           </div>
           <div class="sort">
             排序：
@@ -78,12 +78,15 @@
               </td>
               <td>
                 <input type="number" :value="item.bg" :disabled="item.disableFlag">
-                <a href="javascript:void(0)" @click="updateBgFlag($event,item.id,item.disableFlag)">{{item.disableFlag|bgFilter}}</a>
-                <a href="javascript:void(0)" @click="seeCode(item.id)">查看示例</a>
+                <a href="javascript:void(0)" @click="seeCode(item.bg)">查看示例</a>
+                <button @click="updateBgFlag($event,item.id,item.disableFlag)" class="edit">
+                  <i class="el-icon-edit"></i>
+                  {{item.disableFlag|bgFilter}}
+                </button>
               </td>
               <td class="my-option">
-                <button @click="see(item.id)">查看</button>
-                <button @click="delBlog(item.title,item.id)">删除</button>
+                <button @click="see(item.id)"><i class="el-icon-thumb"></i>查看</button>
+                <button @click="delBlog(item.title,item.id)"><i class="el-icon-delete"></i>删除</button>
               </td>
             </tr>
             </tbody>
@@ -104,21 +107,28 @@
             </li>
             <li><a href="javascript:void(0)" @click="next">下一页</a></li>
           </ul>
-          <span style="margin-right: 10px">共{{arr.length}}条数据</span>
+          <span style="margin:0 10px;">共{{arr.length}}条数据</span>
           跳转到
-          <input type="number" placeholder="页码" v-model.number="page2" v-on:keydown.enter="goTo">
-          每页显示
-          <select v-model="size">
-            <option :value="5">5条/页</option>
-            <option :value="10">10条/页</option>
-            <option :value="20">20条/页</option>
-          </select>
+          <input type="number" placeholder="页码"
+                 v-model.number="page2"
+                 v-on:keydown.enter="goTo"/>每页显示
+          <base-select
+            style="margin-left: 10px"
+            position="top"
+            :value="size+'条/页'">
+            <base-option
+              v-for="item in options"
+              :key="item"
+              :active="size===item"
+              @click="setSize(item)">
+              {{item}}条/页
+            </base-option>
+          </base-select>
         </div>
         <transition name="opacity">
           <base-loading
             v-if="loading"
-            :float="true"
-            :type="1">
+            type="float">
           </base-loading>
         </transition>
       </div>
@@ -126,8 +136,8 @@
 </template>
 
 <script>
-import {getColor} from "../../../assets/js/func";
-import {getAllBlog} from "../../../api/src";
+import {getColor,getSum} from "@/utils";
+import {getAllBlog} from "@/api/src";
 
 export default {
   name: "admin-con",
@@ -147,21 +157,54 @@ export default {
       depArr:[], // 拷贝arr
       showDrawer:false, // 显示code样式
       num:0,  // bg值
+      options:[5,10,20]
     }
   },
   created() {
     this.getColor=getColor;
-    this.getData();
-    let s='在VUex中使用actionVuex';
-    let word='vUe';
-    s=s.replace(eval(`/(${word})/ig`),'<span style="color: red">$1</span>');
+    this.getData()
   },
   computed:{
     curArr(){
       return this.arr.slice(this.page*this.size,(this.page+1)*this.size)
-    }
     },
+    allComment(){
+      return getSum(this.depArr,'comment')
+    },
+    allNumber(){
+      return getSum(this.depArr,'number')
+    },
+    allTag(){
+      let temp=[];
+      this.depArr.forEach(x=>{
+        x.tag.split(',').forEach(x2=>{
+          if(!temp.includes(x2)){
+            temp.push(x2)
+          }
+        })
+      });
+      return temp.length;
+    },
+    allFile(){
+      let temp=[];
+      this.depArr.forEach(x=>{
+        if(!temp.includes(x.fileName)){
+          temp.push(x.fileName);
+        }
+      })
+      return temp.length-1;
+    },
+  },
   methods: {
+    setSize(value){
+      if(value!==this.size){
+        this.loading=true;
+        setTimeout(()=>{
+          this.size=value;
+          this.loading=false;
+        },600);
+      }
+    },
     async getData(){
       const res=await getAllBlog();
       if(res.code===200){
@@ -202,7 +245,7 @@ export default {
         },600);
       }
       else{
-        this.$msg({con:'下一页没有数据了'})
+        this.$msg('下一页没有数据了')
       }
     },
     pre(){
@@ -214,7 +257,7 @@ export default {
         },600);
       }
       else{
-        this.$msg({con:'上一页没有数据了'})
+        this.$msg('上一页没有数据了')
       }
     },
     delBlog(title,blogId){
@@ -227,7 +270,7 @@ export default {
               this.loading=false;
               this.arr=this.arr.filter(x=>x.id!==blogId);
               this.depArr=this.depArr.filter(x=>x.id!==blogId);
-              this.$msg.success({con:'删除博客成功'});
+              this.$msg.success('删除博客成功');
             },600);
           }
         }});
@@ -235,7 +278,7 @@ export default {
     changeAccess(blogId){
       let item=this.arr.find(x=>x.id===blogId);
       item.top=!item.top;
-      this.$msg.success({con:'修改成功'});
+      this.$msg.success('修改成功');
     },
     sortByDate(){
       this.loading=true;
@@ -255,14 +298,7 @@ export default {
     sortByNumber(){
       this.loading=true;
       setTimeout(()=>{
-        this.arr.sort((a,b)=>{
-          if(a.number>b.number){
-            return this.sort2?1:-1;
-          }
-          else{
-            return this.sort2?-1:1;
-          }
-        });
+        this.arr.sort((a,b)=> this.sort2?a.number-b.number:b.number-a.number)
         this.sort2=!this.sort2;
         this.loading=false;
       },500);
@@ -270,14 +306,7 @@ export default {
     sortByComment(){
       this.loading=true;
       setTimeout(()=>{
-        this.arr.sort((a,b)=>{
-          if(a.comment>b.comment){
-            return this.sort3?1:-1;
-          }
-          else{
-            return this.sort3?-1:1;
-          }
-        });
+        this.arr.sort((a,b)=>this.sort3?a.comment-b.comment:b.comment-a.comment)
         this.sort3=!this.sort3;
         this.loading=false;
       },500)
@@ -299,7 +328,7 @@ export default {
         },1000);
       }
       else{
-       this.$msg({con:'查询关键字不能为空'});
+       this.$msg('查询关键字不能为空');
       }
     },
     reloadData(){
@@ -332,11 +361,11 @@ export default {
                 temp.splice(temp.indexOf(tag),1);
                 x.tag=temp.join(',');
                 this.loading=false;
-                this.$msg.success({con:'删除标签成功'});
+                this.$msg.success('删除标签成功');
               },600);
             }
             else {
-              this.$msg.error({con:'删除失败,博客至少需要一个标签'});
+              this.$msg.error('删除失败,博客至少需要一个标签');
             }
           }
         }
@@ -349,7 +378,7 @@ export default {
         getCallBack: ({res,params})=>{
           if(res){
             if(typeof params==='undefined'){
-              this.$msg.error({con:'标签不能为空'});
+              this.$msg.error('标签不能为空');
             }
             else{
               if(params.length<12){
@@ -359,15 +388,15 @@ export default {
                   setTimeout(()=>{
                     x.tag+=','+params.replace(/,/g,'');
                     this.loading=false;
-                    this.$msg.success({con:'增加成功'});
+                    this.$msg.success('增加成功');
                   },600);
                 }
                 else{
-                  this.$msg.error({con:'每篇博客最多只能有3个标签'});
+                  this.$msg.error('每篇博客最多只能有3个标签');
                 }
               }
               else{
-                this.$msg.error({con:'标签长度不能大于12'});
+                this.$msg.error('标签长度不能大于12');
               }
             }
           }
@@ -443,11 +472,11 @@ export default {
           setTimeout(()=>{
             item.bg=value;
             this.loading=false;
-            this.$msg.success({con:'修改成功'});
+            this.$msg.success('修改成功');
           },600);
         }
         else{
-          this.$msg.error({con:'输入框值应该在1,2,3之中'})
+          this.$msg.error('输入框值应该在1,2,3之中')
         }
       }
     },
@@ -531,6 +560,9 @@ export default {
                 background-color: #00a67c;
                 padding: 3px 8px;
                 color: white;
+                i{
+                  margin-right: 3px;
+                }
                 &:nth-child(2){
                   background-color: #F93D57;
                 }
@@ -585,20 +617,24 @@ export default {
       li{
         height: 28px;
         line-height: 28px;
-        a{
-          color: #999999;
-          padding: 3px 8px;
-          font-family: Small-Italic,sans-serif;
-          border: solid 1px #EEEEEE;
-          margin-right: 10px;
-          transition: all .3s;
-          &:hover{
-            border: solid 1px #00a67c;
-          }
-          &.active{
-            background-color: #1eb6fd;
+        &:nth-child(n+2){
+          margin-left: 5px;
+        }
+        &:nth-child(1),&:last-child{
+          a{
+            background-color: #2BA4E7;
             color: white;
-            border: solid 1px #1eb6fd;
+          }
+        }
+        a{
+          color: black;
+          padding: 5px 10px;
+          font-family: Small-Italic,sans-serif;
+          transition: all .3s;
+          background-color: #EEEEEE;
+          &.active{
+            background-color: #00a67c;
+            color: white;
           }
         }
       }
@@ -713,6 +749,13 @@ export default {
   pre{
     margin: 0;
   }
+}
+.edit{
+  outline: none;
+  padding: 3px 8px;
+  color: white;
+  background-color: #7380E4;
+  border: none;
 }
 @media screen  and (max-width: 875px){
   .table{

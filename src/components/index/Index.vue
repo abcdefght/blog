@@ -35,7 +35,7 @@ import IndexUser from './children/index-user';
 import IndexTags from './children/index-tags';
 import IndexNotice from './children/index-notice';
 import IndexFile from './children/index-file';
-import NavBar from "../NavBar";
+import NavBar from "../Navbar";
 
 export default {
   name: 'App',
@@ -53,9 +53,6 @@ export default {
     IndexFile,
     NavBar
   },
-  created() {
-    this.$axios.get('https://www.uhnehc.top/api/blog/1').then(res=>console.log(res));
-  }
 }
 </script>
 

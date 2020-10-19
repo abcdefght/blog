@@ -8,13 +8,13 @@ let csrftoken='';
 
 
 // 请求拦截器
-axios.interceptors.request.use(
-  config=>{
-    if(cookies.get('csrftoken')){
+axios.interceptors.request.use(config=>{
+  console.log('csrftoken is',cookies.get('csrftoken'));
+  if(cookies.get('csrftoken')){
       csrftoken=cookies.get('csrftoken');
     }
     config.headers.common['X-CSRFtoken']=csrftoken;
-    return config;
+  return config;
   },error=>{
     return Promise.reject(error);
   }
@@ -30,47 +30,30 @@ axios.interceptors.response.use(response=>{
   }
 });
 
-
-export function GET(url, params={}) {
-  return new Promise(((resolve, reject) => {
-    axios.get(url,{
-      params:params
-    }).then(res=>{
-      resolve(res.data);
-    }).catch(error=>{
-      reject(error.data);
-    })
-  }))
+export function request({url,method,params={},headers={}}){
+  switch (method){
+    case 'get':
+      return new Promise((resolve, reject) => {
+        axios.get(url,{params}).then(res=>{
+          resolve(res.data)
+        }).catch(error=>{
+          reject(error.data);
+        })
+      })
+    case 'post':
+      return new Promise((resolve, reject) => {
+        axios.post(url,params,{headers}).then(res=>{
+          resolve(res.data)
+        }).catch(error=>{
+          reject(error.data)
+        })
+      })
+    case 'delete':
+      break;
+    case 'put':
+      break;
+    default:
+      break;
+  }
 }
 
-export function POST(url, data,contentType='applications/json') {
-  return new Promise(((resolve, reject) => {
-    axios.post(url,data,
-      {headers:{contentType:contentType}}
-      ).then(res=>{
-      resolve(res.data);
-    }).catch(error=>{
-      reject(error.data);
-    })
-  }))
-}
-
-export function PUT(url, data) {
-  return new Promise(((resolve,reject)=>{
-    axios.put(url,data).then(res=>{
-      resolve(res.data)
-    }).catch(error=>{
-      reject(error.data)
-    })
-  }))
-}
-
-export function DELETE(url, data) {
-  return new Promise(((resolve,reject)=>{
-    axios.delete(url,data).then(res=>{
-      resolve(res.data)
-    }).catch(error=>{
-      reject(error.data)
-    })
-  }))
-}

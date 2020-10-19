@@ -1,35 +1,20 @@
+import fa from "element-ui/src/locale/lang/fa";
 
 const state={
   login:false,
-  user:'游客'
 };
 
 const getters={
 
-
 };
 
 const mutations={
-  initUser(state,user){
-    state.user=user;
-    state.login=true;
+  initLogin(state,flag){
+    state.login=flag;
   },
-
-  delUser(state){
-    state.user='游客';
-    state.login=false;
-  }
-
 };
 
 const actions={
-  initUser({commit},user){
-    commit('initUser',user);
-  },
-
-  delUser({commit}){
-    commit('delUser');
-  }
 
 };
 

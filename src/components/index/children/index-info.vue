@@ -1,12 +1,13 @@
 <template>
-  <div>
-    <div class="foot-top">
-    </div>
-    <div class="foot-info">
-      <span>awwac个人博客</span>
-      <span>|</span>
-      <a href="http://www.beian.miit.gov.cn/" target="_blank">鄂ICP备18014803号-1</a>
-    </div>
+  <div class="index-info">
+    awwac个人博客
+    <span class="sep">|</span>
+    托管于阿里云服务器
+    <span class="sep">|</span>
+    <a href="https://github.com/abcdefght/blog" target="_blank">项目地址</a>
+    <span class="sep">|</span>
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">鄂ICP备18014803号-1</a>
+
   </div>
 
 </template>
@@ -18,29 +19,23 @@
 </script>
 
 <style scoped lang="less">
-
-  .foot-info {
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
+  .index-info{
+    border-top: solid 6px #D56464;
     color: #cccccc;
     background-color: #333333;
-    padding: 10px;
-    > a {
-      color: #cccccc;
-      &:hover {
-        color: white;
-        text-decoration: underline;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    a {
+        color: #cccccc;
+        &:hover {
+          color: white;
+          text-decoration: underline;
+        }
       }
-    }
-    >span{
-      &:nth-child(2){
+    .sep{
         margin: 0 10px;
       }
-    }
-  }
-  .foot-top{
-    height: 6px;
-    background-color: #D56464;
   }
 </style>

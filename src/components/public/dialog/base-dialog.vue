@@ -2,8 +2,7 @@
     <transition name="d-slide">
         <div class="dialog" v-if="flag">
             <div class="top">
-                <div><img src="../img/warning.png" alt="#"></div>
-                <div>提示</div>
+              <i class="el-icon-warning"></i>提示
             </div>
             <div class="con" v-html="con">
 
@@ -85,16 +84,13 @@
             font-weight: bolder;
         }
         .top{
-            display: flex;
-            div{
-               img{
-                   width: 22px;
-                   height: auto;
-               }
-                &:nth-child(2){
-                    margin-left: 10px;
-                }
-            }
+          display: flex;
+          align-items: center;
+          i{
+            color: #FAAD14;
+            font-size: 22px;
+            margin-right: 5px;
+          }
         }
         .con{
             padding: 10px 0;

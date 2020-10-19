@@ -1,47 +1,28 @@
 <template>
     <div id="test">
-      <div class="test-table">
-        <table>
-          <tr>
-            <td>菜单1<button>click1</button><button>click2</button></td>
-            <td>菜单2</td>
-            <td>菜单3</td>
-            <td>菜单4</td>
-            <td>菜单5</td>
-            <td>菜单6</td>
-            <td>菜单7</td>
-            <td>菜单8</td>
-            <td>菜单9</td>
-            <td>菜单10</td>
-          </tr>
-        </table>
-      </div>
+      <button @click="removeCookie">click Me</button>
     </div>
 </template>
 
 <script>
+  import cookies from 'vue-cookies';
   export default {
       name: "Test",
+      methods:{
+        removeCookie(){
+          cookies.remove('csrftoken');
+          console.log(cookies.get('csrftoken'));
+        }
+      }
   }
 </script>
 
 <style scoped lang="less">
   #test{
-    margin: 10px;
+    margin: 100px;
+    padding: 30px;
+    height: 300px;
     background-color: white;
-    padding: 20px;
-    .test-table{
-      width: 100%;
-      overflow: auto;
-      table{
-        border-collapse: collapse;
-        width: 100%;
-        td{
-          padding: 5px 10px;
-          border: solid 1px #00a67c;
-          min-width: 200px;
-        }
-      }
-    }
+
   }
 </style>

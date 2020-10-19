@@ -1,0 +1,84 @@
+@font-face {
+  font-family: 'Small';
+  src:url("../font/small.ttf");
+}
+@font-face {
+  font-family: "Small-Italic";
+  src:url("../font/small-italic.ttf");
+}
+
+.hljs{
+  font-family: 'Small',sans-serif;
+  .hljs-variable{
+    color: #6BD5DF;
+  }
+  .hljs-ln-n:before{
+    content: attr(data-line-number);
+    color: #999999;
+    margin-right: 10px;
+  }
+  .hljs-keyword{
+    color: #f99157;
+  }
+  .hljs-string{
+    color: #42b983;
+  }
+  .hljs-number{
+    color: #E02298;
+  }
+  .hljs-params{
+    color: #DDE275;
+  }
+  .hljs-comment{
+    color: rgba(253,250,250,0.5);
+  }
+  .hljs-attribute{
+    color: #FABD3A;
+  }
+  .hljs-name{
+    color: #FD8246;
+  }
+  .hljs-literal{
+    color: #E02298;
+  }
+  .hljs-built_in{
+    color: #AB66BF;
+    font-family: "Small-Italic",sans-serif;
+  }
+  .hljs-regexp{
+    color: #DDE275;
+  }
+  .hljs-attr{
+    color: #CEDC58;
+  }
+  .hljs-symbol{
+    color: #68E868;
+  }
+  .hljs-ln-n{
+    text-align: right;
+    padding: 2px 0 2px 15px;
+    font-size: 14px;
+  }
+}
+
+.code{
+  position: relative;
+  margin: 5px 0;
+  pre{
+    display: block;
+    background-color: #2D2D2D;
+    font-size: 14px;
+    color: #ccc;
+    overflow: auto;
+    margin: 5px 0;
+    table{
+      border-collapse: collapse;
+    }
+    &.single-line{
+      padding: 10px;
+    }
+  }
+}
+
+
+

@@ -6,18 +6,31 @@
         <span>awwac</span>个人<span>blog</span>后台管理
       </div>
       <ul>
-        <li @mouseover="showSlide($event)" @mouseout="closeSlide($event)" @click="goTo('con')"><img src="../../assets/img/blog2.png" alt="" >博客管理</li>
-        <li @mouseover="showSlide($event)" @mouseout="closeSlide($event)" @click="goTo('file')"><img src="../../assets/img/class.png" alt="">分类管理</li>
-        <li @mouseover="showSlide($event)" @mouseout="closeSlide($event)"><img src="../../assets/img/admintag.png" alt="">标签管理</li>
-        <li @mouseover="showSlide($event)" @mouseout="closeSlide($event)"><img src="../../assets/img/admincomment.png" alt="">评论管理</li>
-        <li @mouseover="showSlide($event)" @mouseout="closeSlide($event)"><img src="../../assets/img/adminuser.png" alt="">用户管理</li>
+        <li :class="{'active':curView===1}" @mouseover="showSlide($event)" @mouseout="closeSlide($event)" @click="goTo('/admin/con')">
+          <i class="el-icon-tickets"></i>博客管理
+        </li>
+        <li :class="{'active':curView===2}" @mouseover="showSlide($event)" @mouseout="closeSlide($event)" @click="goTo('/admin/file')">
+          <i class="el-icon-folder"></i>分类管理
+        </li>
+        <li :class="{'active':curView===3}" @mouseover="showSlide($event)" @mouseout="closeSlide($event)" @click="goTo('/admin/tag')">
+          <i class="el-icon-collection-tag"></i>标签管理
+        </li>
+        <li :class="{'active':curView===4}" @mouseover="showSlide($event)" @mouseout="closeSlide($event)" @click="goTo('/admin/comment')">
+          <i class="el-icon-chat-dot-square"></i>评论管理
+        </li>
+        <li :class="{'active':curView===5}" @mouseover="showSlide($event)" @mouseout="closeSlide($event)" @click="goTo('/admin/word')">
+          <i class="el-icon-chat-dot-round"></i>留言管理
+        </li>
+        <li :class="{'active':curView===6}" @mouseover="showSlide($event)" @mouseout="closeSlide($event)" @click="goTo('/admin/data')">
+          <i class="el-icon-s-data"></i>数据统计
+        </li>
         <li class="slide" :style="styleObj"></li>
       </ul>
     </div>
     <div class="admin-right">
       <div class="top">
         <div>
-          <img src="../../assets/img/scale.png" alt="" class="scale" title="缩小导航栏" @click="scaleNav()">
+          <i :class="navFlag?'el-icon-full-screen':'el-icon-crop'" @click="scaleNav" style="font-size: 20px;margin: 0 10px;"></i>
         </div>
         <div>
           <span>当前用户：</span>
@@ -27,12 +40,12 @@
             <transition name="fade">
               <ul class="options" v-if="flag">
               <li>
-                <img src="../../assets/img/index.png" alt="">
-                <a href="javascript:void(0)">返回主页</a>
+                <i class="el-icon-house"></i>
+                <a href="javascript:void(0)" @click="goTo('/')">返回主页</a>
               </li>
               <li>
-                <img src="../../assets/img/logout.png" alt="">
-                <a href="javascript:void(0)">退出登陆</a>
+                <i class="el-icon-switch-button"></i>
+                <a href="javascript:void(0)" @click="logout">退出登陆</a>
               </li>
             </ul>
             </transition>
@@ -41,7 +54,9 @@
         </div>
       </div>
       <div class="con">
-        <router-view/>
+        <transition name="opacity" mode="out-in">
+          <router-view/>
+        </transition>
       </div>
     </div>
   </div>
@@ -59,7 +74,8 @@ export default {
       },
       flag:false,  // 登陆框显示
       deg:'0deg',
-      navFlag:true  // 导航栏缩小
+      navFlag:true,  // 导航栏缩小
+      curView:0, // 当前组件
     }
   },
   methods:{
@@ -79,20 +95,61 @@ export default {
     },
     goTo(path){
       this.$router.push({
-        path:`/admin/${path}`
+        path:`${path}`
       })
     },
     scaleNav(){
       this.navFlag=!this.navFlag;
+      this.$store.commit('admin/toggleScaleFlag');
       let node=document.getElementsByClassName('admin-left')[0]
       if(this.navFlag){
         node.style.width='260px';
         node.style.opacity=1;
+        node.style.zIndex=100;
       }
       else {
         node.style.width=0;
         node.style.opacity=0;
+        node.style.zIndex=-10;
       }
+    },
+    logout(){
+      this.$cookies.remove('token');
+      this.$store.commit('login/initLogin',false);
+      this.$msg.success({con:'退出登陆成功'});
+      setTimeout(()=>{
+        this.$router.push({
+          path:'/'
+        })
+      },600);
+    }
+  },
+  watch:{
+    $route:{
+      handler(newVal){
+        let comName=newVal.name;
+        switch (comName){
+          case 'AdminCon':
+            this.curView=1;
+            break
+          case 'AdminFile':
+            this.curView=2;
+            break
+          case 'AdminTag':
+            this.curView=3;
+            break
+          case 'AdminComment':
+            this.curView=4;
+            break
+          case 'AdminWord':
+            this.curView=5;
+            break
+          case 'AdminData':
+            this.curView=6;
+            break
+        }
+      },
+      immediate:true
     }
   }
 }
@@ -151,6 +208,14 @@ export default {
           color: #999999;
           font-size: 14px;
           transition: all .3s;
+          i{
+            font-size: 20px;
+            margin-right: 10px;
+          }
+          &.active{
+            background-color: #3B424D;
+            color: white;
+          }
           &:hover{
             color: #00a67c;
             cursor: pointer;
@@ -158,11 +223,6 @@ export default {
           >div{
             position: relative;
             top: 0;
-          }
-          img{
-            width: 20px;
-            height: auto;
-            margin-right: 12px;
           }
           &.slide{
             position: absolute;
@@ -193,12 +253,6 @@ export default {
           &:nth-child(1){
             margin-right: 20px;
           }
-          .scale{
-            width: 20px;
-            height: auto;
-            top: 20px;
-            margin-left: 10px;
-          }
           img{
             width: 30px;
             height: auto;
@@ -206,7 +260,7 @@ export default {
           }
           .sf{
             font-size: 12px;
-            background-color: #999999;
+            background-color: #E05C5C;
             color: white;
             padding: 3px 5px;
             margin-left: 5px;
@@ -244,20 +298,22 @@ export default {
                 justify-content: center;
                 align-items: center;
                 transition: all .3s;
+                color: black;
                 &:hover{
                   background-color: #F2F3F6;
-                  a{
+                  a,i{
                     color: black;
                   }
                 }
+                font-size: 14px;
                 a{
                   color: #999999;
-                  font-size: 13px;
                   transition: color .3s;
                 }
-                img{
-                  width: 20px;
-                  height: auto;
+                i{
+                  margin-right: 3px;
+                  font-size: 16px;
+                  color: #999999;
                 }
               }
             }

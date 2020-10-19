@@ -4,14 +4,22 @@
       <img src="../../../assets/img/tagclass.png" alt="">
       博客分类</p>
     <div>
-      <a href="javascript:void(0)" v-for="(item,index) in result" :key="index" :style="{'background-color':getColor(item.name)}" @click="goTo(item.name)">{{item.name}}</a>
+      <base-tooltip v-for="(item,index) in result" :key="index"
+                    style="width: auto"
+                    :info="'共'+item.count+'篇博客'">
+        <a href="javascript:void(0)"
+           :style="{'background-color':getColor(item.name)}"
+           @click="goTo(item.name)">
+          {{item.name}}
+        </a>
+      </base-tooltip>
     </div>
   </div>
 </template>
 
 <script>
-    import {getTagBlog} from "../../../api/src";
-    import {getColor} from "../../../assets/js/func";
+    import {getTagBlog} from "@/api/src";
+    import {getColor} from "@/utils";
 
     export default {
         name: "index-tags",
@@ -65,14 +73,13 @@
       grid-template-columns: repeat(auto-fit,minmax(100px,1fr));
       gap: 5px;
       a{
+        display: block;
         text-align: center;
-        padding: 3px 0;
-        transition: all .3s;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 5px 0;
         background-color: #00a67c;
         color: white;
-        &:hover{
-          opacity: .7;
-        }
       }
     }
   }

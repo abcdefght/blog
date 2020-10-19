@@ -1,5 +1,5 @@
 @width:200px;
-#detail{
+#detail,.write-example{
   > table{
     font-size: 14px;
     border-collapse: collapse;
@@ -9,17 +9,24 @@
       padding: 5px 25px;
     }
   }
-
   p{
     margin: 5px 0;
-    .item{
+    span.item{
       color: #FB7254;
       margin: 0 3px;
     }
-    span.info{
-      background-color: #ECEAF8;
-      padding: 3px 5px;
-      margin: 0 5px;
+    &.sm-title{
+      margin: 20px 0;
+      font-weight: bold;
+    }
+    &.sm{
+      font-size: 14px;
+      color: #999999;
+    }
+    &.title{
+      font-size: 18px;
+      margin: 30px 0;
+      font-weight: bold;
     }
   }
   /* 图片 */
@@ -32,74 +39,12 @@
     max-width: 100%;
     height: auto;
   }
-
-  .prompt{
-    padding: 10px;
-    background-color: #E0A4B6;
-    border-radius: 5px;
-    .item{
-      color: red;
-    }
-  }
-
   /* 导航标题 */
-  .title{
-    margin: 20px 0;
-    font-size: 20px;
-    font-weight: bold;
-  }
-
-  .sm-title{
-    font-weight: bold;
-    font-size: 17px;
-    margin: 20px 0;
-    height: 30px;
-    line-height: 30px;
-    position: relative;
-    padding-left: 25px;
-    &:before{
-      position: absolute;
-      left: 0;
-      top: 5px;
-      display: block;
-      width: 20px;
-      height: 20px;
-      content: '';
-      background: url("../img/star.png") 0 0 no-repeat;
-      background-size: 100%;
-    }
-  }
-
-  .li{
-    span{
-      color: #FE6855;
-    }
-    margin: 10px 0;
-    &:before{
-      content: '';
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      background-color: #535252;
-      border-radius: 5px;
-      margin-right: 10px;
-    }
-  }
-  /* 输入输出描述 */
-  .input{
-    padding: 10px;
-    background-color: #EAEAEA;
-    font-size: 14px;
-    border-left: solid 4px #458FDF;
-  }
-
-  /* 页脚注释 */
   .info{
     font-size: 14px;
     text-align: right;
     color: #7F7F7F;
   }
-
   a{
     color: #5BA0C6;
     margin-left: 10px;
@@ -108,38 +53,21 @@
 
     }
   }
-
   .explain{
     padding: 10px;
     background-color: #EEEEEE;
   }
-
-  .ul{
-    background-color: #EEEEEE;
-    list-style: none;
-    padding: 10px;
-    margin-left: 0;
+  ul,ol{
+    font-size: 14px;
     li{
-      margin: 5px 0;
-      span{
-        color: #dd628d;
-      }
-      &:before{
-        content: '';
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        background-color: #535252;
-        border-radius: 5px;
-        margin-right: 10px;
-      }
+      padding: 3px 0;
     }
   }
-  .ol{
-    font-size: 14px;
-    border-left: solid 3px #009688;
-    list-style: none;
-    padding: 5px 10px;
+  ul{
+    list-style: circle inside;
+  }
+  ol{
+    list-style: decimal inside;
   }
 }
 

@@ -2,6 +2,7 @@
     <div>
       <NavBar/>
       <div class="blog-detail">
+        <p v-show="searchWord.length>0">查询成功,共有<span>{{len}}</span>条关于<span>{{searchWord}}</span>的记录</p>
         <transition-group name="fade" style="display: grid;gap: 10px;">
           <div v-for="item in searchData" :key="item.id" class="blog-item">
             <div class="title">
@@ -12,26 +13,25 @@
               <div v-html="wordFilter(item.detail,searchWord)" class="bottom-con"></div>
               <div class="bottom-file" v-if="item.fileId>1">本文收录于<a href="javascript:void(0)" @click="goFile(item.fileId)">{{item.fileName}}</a></div>
               <div class="bottom-info">
-                  <div>
-                    <div><img src="../assets/img/user2.png" alt="图片未加载"></div>
-                    <div>{{item.author}}</div>
-                  </div>
-                  <div>
-                    <div><img src="../assets/img/pub.png" alt="图片未加载"></div>
-                    <div>{{item.pubDate|dateFilter}}</div>
-                  </div>
-                  <div>
-                    <div><img src="../assets/img/see2.png" alt="图片未加载"></div>
-                    <div>{{item.comment}}评论数</div>
-                  </div>
-                  <div>
-                    <div><img src="../assets/img/commit.png" alt="图片未加载"></div>
-                    <div>{{item.number}}浏览数</div>
-                  </div>
+                <div>
+                  <i class="el-icon-user"></i>{{item.author}}
                 </div>
+                <div>
+                  <i class="el-icon-date"></i>{{item.pubDate|dateFilter}}
+                </div>
+                <div>
+                  <i class="el-icon-chat-round"></i>{{item.comment}}评论数
+                </div>
+                <div>
+                  <i class="el-icon-tickets"></i>{{item.number}}浏览数
+                </div>
+              </div>
             </div>
           </div>
         </transition-group>
+        <base-loading
+          v-if="loading">
+        </base-loading>
       </div>
       <div v-show="searchFlag" class="no-data">没有数据了!</div>
     </div>
@@ -39,14 +39,14 @@
 
 <script>
     import { mapState,mapActions } from 'vuex';
-    import {Search} from "../api/src";
-    import NavBar from "./NavBar";
+    import {Search} from "@/api/src";
+    import NavBar from "./Navbar";
 
     export default {
       name: "Search",
       data(){
         return {
-          flag:false,
+          loading:false,
         }
       },
       mounted(){
@@ -60,7 +60,8 @@
           searchData:state=>state.search.searchData,
           searchWord:state=>state.search.searchWord,
           searchPage:state=>state.search.searchPage,
-          searchFlag:state=>state.search.searchFlag
+          searchFlag:state=>state.search.searchFlag,
+          len:state=>state.search.len
         })
       },
       methods:{
@@ -76,6 +77,8 @@
           let top=document.documentElement.scrollTop||document.body.scrollTop;
           let height=document.documentElement.scrollHeight;
           if(height-client-top<1&&!this.searchFlag){
+            this.flag=false;
+            this.loading=true;
             setTimeout(()=>{
               this.addSearchPage(1);
               Search({
@@ -90,9 +93,10 @@
                   else{
                     this.changeSearchFlag(true);
                   }
+                  this.loading=false;
                 }
               });
-            },1000);
+            },600);
           }
         },
 
@@ -126,6 +130,12 @@
     margin: 10px auto;
     display: grid;
     gap: 10px;
+    >p{
+      font-size: 14px;
+      span{
+        color: red;
+      }
+    }
   }
   .no-data{
     max-width: 800px;

@@ -8,24 +8,12 @@
     flex-wrap: wrap;
     margin-top: 10px;
     >.four{
-      min-width: 60px;
       display: flex;
       margin-right: 20px;
-      padding-top: 5px;
-      >div{
-        display: flex;
-        &:nth-child(1){
-          justify-content: flex-start;
-          align-items: center;
-          width: 24px;
-          >img{
-            width: 20px;
-            height: auto;
-          }
-        }
-        &:nth-child(2){
-          flex: 1;
-        }
+      align-items: center;
+      i{
+        font-size: 16px;
+        margin-right: 3px;
       }
     }
   }
@@ -76,48 +64,12 @@
       }
     }
     &:nth-child(2){
+      display: flex;
+      align-items: center;
       margin-left: 10px;
-      >span{
-        display: inline-block;
-        margin-right: 4px;
-        padding: 0 5px;
+      a{
         color: white;
-        height: 24px;
-        line-height: 24px;
-        transition: opacity .3s;
-        position: relative;
-        >span{
-          display: inline-block;
-          position: absolute;
-          width: 100px;
-          background-color: black;
-          color: white;
-          font-size: 13px;
-          bottom: 100%;
-          text-align: center;
-          opacity: 0;
-          margin-bottom: 6px;
-          left: 0;
-          z-index: -1;
-          &:before{
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 0;
-            top: 100%;
-            border-left: solid 4px transparent;
-            border-right: solid 4px transparent;
-            border-top: solid 5px black;
-            left: 10px;
-          }
-        }
-        &:hover{
-          cursor: pointer;
-          span{
-            opacity: 0.6;
-            z-index: 10;
-          }
-        }
+        padding: 5px 10px;
       }
     }
   }

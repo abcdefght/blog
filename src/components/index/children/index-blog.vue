@@ -16,28 +16,22 @@
             <div class="bottom-file" v-if="item.fileId>1">本文收录于<a href="javascript:void(0)" @click="goFile(item.fileId)">{{item.fileName}}</a></div>
             <div class="bottom-info">
               <div>
-                <div><img src="../../../assets/img/user2.png" alt="#"></div>
-                <div>{{item.author}}</div>
+                <i class="el-icon-user"></i>{{item.author}}
               </div>
               <div>
-                <div><img src="../../../assets/img/pub.png" alt="#"></div>
-                <div>{{item.pubDate|dateFilter}}</div>
+                <i class="el-icon-date"></i>{{item.pubDate|dateFilter}}
               </div>
               <div>
-                <div><img src="../../../assets/img/commit.png" alt="#"></div>
-                <div>{{item.comment}}评论数</div>
+                <i class="el-icon-chat-round"></i>{{item.comment}}评论数
               </div>
               <div>
-                <div>
-                  <img src="../../../assets/img/see2.png" alt="#">
-                </div>
-                <div>{{item.number}}浏览数</div>
+                <i class="el-icon-tickets"></i>{{item.number}}浏览数
               </div>
             </div>
           </div>
         </li>
           <transition-group name="fade" style="display: grid;gap: 10px;">
-            <li v-for="(item,index) in result1" :key="item.id" class="blog-item">
+            <li v-for="item in result1" :key="item.id" class="blog-item">
               <div class="title">
                 <span>{{item.tag|tagFilter}}<span></span></span>
                 <span @click="goTo(item.id)">
@@ -51,22 +45,16 @@
                 <div class="bottom-file" v-if="item.fileId>1">本文收录于<a href="javascript:void(0)" @click="goFile(item.fileId)">{{item.fileName}}</a></div>
                 <div class="bottom-info">
                   <div>
-                    <div><img src="../../../assets/img/user2.png" alt="#"></div>
-                    <div>{{item.author}}</div>
+                    <i class="el-icon-user"></i>{{item.author}}
                   </div>
                   <div>
-                    <div><img src="../../../assets/img/pub.png" alt="#"></div>
-                    <div>{{item.pubDate|dateFilter}}</div>
+                    <i class="el-icon-date"></i>{{item.pubDate|dateFilter}}
                   </div>
                   <div>
-                    <div><img src="../../../assets/img/commit.png" alt="#"></div>
-                    <div>{{item.comment}}评论数</div>
+                    <i class="el-icon-chat-round"></i>{{item.comment}}评论数
                   </div>
                   <div>
-                    <div>
-                      <img src="../../../assets/img/see2.png" alt="#">
-                    </div>
-                    <div>{{item.number}}浏览数</div>
+                    <i class="el-icon-tickets"></i>{{item.number}}浏览数
                   </div>
                 </div>
               </div>
@@ -81,11 +69,11 @@
 </template>
 
 <script>
-  import {getRecommend} from "../../../api/src";
+  import {getRecommend} from "@/api/src";
 
   export default {
-        name: "index-blog",
-        data(){
+    name: "index-blog",
+    data(){
           return{
             result1:[],
             result2:[],
@@ -94,14 +82,14 @@
             flag2:true  // 设置加载过渡动画
           }
         },
-        async created(){
+    async created(){
           const res=await getRecommend({page:this.page,size:5});
           if(res.code===200){
             this.result1=res.result.data1;
             this.result2=res.result.data2;
           }
         },
-      methods:{
+    methods:{
         goTo(id){
           this.$router.push({
             path:'/blog/'+id
@@ -134,7 +122,7 @@
           })
         }
       }
-    }
+  }
 </script>
 
 <style scoped lang="less">

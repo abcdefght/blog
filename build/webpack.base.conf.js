@@ -8,10 +8,8 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-
-
 module.exports = {
-  context: path.resolve(__dirname, '../'),
+  context: path.resolve(__dirname, '../'),  // 使webpack配置更独立
   entry: {
     app: './src/main.js'
   },
@@ -27,6 +25,7 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
+      '@com':resolve('src/components'),
     }
   },
   module: {

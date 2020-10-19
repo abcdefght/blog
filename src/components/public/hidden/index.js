@@ -5,7 +5,7 @@ const HiddenConstruct=Vue.extend(BaseHiddenComponent);
 
 /*
 * 笼罩层组件
-* @param {Boolean} options 为true显示，为false关闭
+* @param {Boolean} option 为true显示，为false关闭
 * */
 const hidden=function (options) {
     if(typeof options==='boolean'){

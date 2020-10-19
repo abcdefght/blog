@@ -11,7 +11,7 @@
 <script>
     import BlogDetail from './children/blog-detail';
     import BlogComment from './children/blog-comment';
-    import NavBar from "../NavBar";
+    import NavBar from "../Navbar";
 
     export default {
         name: "Blog",

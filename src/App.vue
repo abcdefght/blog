@@ -5,23 +5,20 @@
 </template>
 
 <script>
-  import NavBar from './components/NavBar';
+  import NavBar from '@com/Navbar';
 
   export default {
     name: 'App',
     components:{
       NavBar
-    },
-
-}
+    }
+  }
 </script>
 
 
 <style lang="less">
   @import "../src/assets/less/global.less";
-</style>
-<style>
-  @import "../src/assets/css/code.css";
+  @import "assets/less/code.less";
   #app{
     height: 100%;
     position: relative;

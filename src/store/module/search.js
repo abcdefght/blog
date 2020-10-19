@@ -6,8 +6,8 @@ const state={
   searchData:'',   // 搜索结果
   searchWord:'',    // 搜索关键字
   searchPage:0,      // 搜索页码
-  searchFlag:false    // 搜索flag显示,false继续加载,true不加载
-
+  searchFlag:false,    // 搜索flag显示,false继续加载,true不加载
+  len:0   // 查询结果长度
 
 };
 
@@ -30,6 +30,9 @@ const mutations={
     state.searchWord=word;
   },
 
+  initLen(state,len){
+    state.len=len;
+  },
 
   addSearchData(state,arr){
     state.searchData=Array.from(new Set([...state.searchData,...arr]));
@@ -45,7 +48,7 @@ const mutations={
 
   changeSearchFlag(state,value){
     state.searchFlag=value;
-  }
+  },
 
 };
 
@@ -77,6 +80,10 @@ const actions={
 
   changeSearchFlag({commit},value){
     commit('changeSearchFlag',value);
+  },
+
+  initLen({commit},len){
+    commit('initLen',len)
   }
 };
 

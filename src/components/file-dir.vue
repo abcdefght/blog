@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavBar/>
+    <Navbar/>
     <div class="file">
       <div v-for="(item,index) in dateData" :key="index" class="blog-item">
         <div class="title">
@@ -12,20 +12,16 @@
           <div class="bottom-file" v-if="item.fileId>1">本文收录于<a href="javascript:void(0)">{{item.fileName}}</a></div>
           <div class="bottom-info">
             <div>
-              <div><img src="../assets/img/user2.png" alt="图片未加载"></div>
-              <div>{{item.author}}</div>
+              <i class="el-icon-user"></i>{{item.author}}
             </div>
             <div>
-              <div><img src="../assets/img/pub.png" alt="图片未加载"></div>
-              <div>{{item.pubDate|dateFilter}}</div>
+              <i class="el-icon-date"></i>{{item.pubDate|dateFilter}}
             </div>
             <div>
-              <div><img src="../assets/img/see2.png" alt="图片未加载"></div>
-              <div>{{item.number}}浏览数</div>
+              <i class="el-icon-chat-round"></i>{{item.comment}}评论数
             </div>
             <div>
-              <div><img src="../assets/img/commit.png" alt="图片未加载"></div>
-              <div>{{item.number}}评论数</div>
+              <i class="el-icon-tickets"></i>{{item.number}}浏览数
             </div>
           </div>
         </div>
@@ -36,8 +32,9 @@
 </template>
 
 <script>
-    import {getFileDetail} from '../api/src';
-    import NavBar from "./NavBar";
+    import {getFileDetail} from '@/api/src';
+    import Navbar from "./Navbar";
+    import {dateFilter,tagFilter} from "@/filters";
 
     export default {
         name: "FileDir",
@@ -46,8 +43,9 @@
             dateData:[],
           }
         },
+        props:['id'],
         async created(){
-          const res=await getFileDetail(this.$route.params.id);
+          const res=await getFileDetail(this.id);
           if(res.code===200){
             this.dateData=res.result;
           }
@@ -60,7 +58,11 @@
           },
         },
         components:{
-          NavBar
+          Navbar
+        },
+        filters:{
+          dateFilter,
+          tagFilter
         }
     }
 </script>

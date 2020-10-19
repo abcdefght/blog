@@ -1,7 +1,12 @@
 <template>
-    <div class="switch"  @click="toggle" :class="{active2:flag2,active:curFlag}">
-        <div></div>
-        <span v-if="textShow">{{infoText}}</span>
+    <div class="switch"
+         @click="toggle"
+         :style="{width:width+'px'}"
+         :class="{active2:flag2,active:curFlag}">
+      <div style="left: 4px" v-if="curFlag"></div>
+      <div :style="{left:width-20+'px'}" v-else></div>
+      <span v-if="textShow&&curFlag" :style="{left:'24px'}">{{infoText}}</span>
+      <span v-if="textShow&&!curFlag" :style="{left:'8px'}">{{infoText}}</span>
     </div>
 </template>
 
@@ -26,6 +31,10 @@
             flag:{  // Flag值
                 type:Boolean,
                 default:true
+            },
+            width:{
+              type:Number,
+              default:56
             },
             params:[String,Number,Object],   // 可能需要的参数[可选]
         },
@@ -63,7 +72,6 @@
         }
     }
     .switch{
-        width: 56px;
         height: 22px;
         background-color: #BFBFBF;
         border-radius: 12px;
@@ -73,22 +81,16 @@
           position: absolute;
           top: 0;
           line-height: 22px;
-          left: 8px;
           font-family: Small,sans-serif;
           transition: all .3s;
         }
         &.active{
             background-color: #3683FD;
-            div{
-                left: 4px;
-            }
             span{
-              left: 30px;
               color: white;
             }
         }
         div{
-            left: 35px;
             position: absolute;
             display: inline-block;
             width: 16px;

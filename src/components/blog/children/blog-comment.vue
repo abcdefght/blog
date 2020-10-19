@@ -2,7 +2,9 @@
     <div class="user-comment">
       <p>评论列表<span>{{len}}</span></p>
       <div v-for="(item,index) in commentData" :key="index" class="item">
-        <div>{{item.name}}：</div>
+        <div>
+          <span v-if="index>2">{{index+1}}楼</span><span v-else class="active">置顶</span>{{item.name}}：
+        </div>
         <div class="item-right">
           <div>
             <div>
@@ -26,22 +28,20 @@
       <div class="post-comment">
         <textarea :placeholder="commentText" id="comment" v-model="detail"></textarea>
         <div>
-          <button @click="addComment()">
-            <img src="../../../assets/img/post.png" alt="">
-            发表</button>
+          <button @click="addComment()"><i class="el-icon-edit"></i>发表</button>
         </div>
       </div>
       <transition name="opacity">
-        <base-loading2
+        <base-loading
           v-if="loading"
-          :float="true">
-        </base-loading2>
+          type="float">
+        </base-loading>
       </transition>
     </div>
 </template>
 
 <script>
-    import {getComment,addComment,replyComment} from "../../../api/src";
+    import {getComment,addComment,replyComment} from "@/api/src";
 
     export default {
         name: "blog-comment",
@@ -61,7 +61,7 @@
         methods:{
           addComment(){
             if(this.detail===''){
-              this.$msg.warning({con:'评论不能为空'});
+              this.$msg.warning('评论不能为空',{position:'bottom'});
               return
             }
             if(this.flag){
@@ -72,7 +72,7 @@
                 replyComment(this.$route.params.id,this.id,postData).then(res=>{
                   if(res.code===200){
                     this.loading=false;
-                    this.$msg({con:'回复评论成功'});
+                    this.$msg('回复评论成功',{position:'bottom'});
                     this.detail='';
                     this.flag=false;
                     this.commentText='说几句话吧!';
@@ -97,7 +97,7 @@
                 addComment(this.$route.params.id,postData).then(res=>{
                   if(res.code===200){
                     this.loading=false;
-                    this.$msg({con:res.msg})
+                    this.$msg(res.msg,{position:'bottom'})
                     this.detail='';
                     this.commentText='说几句话吧!';
                     setTimeout(()=>{
@@ -110,7 +110,7 @@
                     },1000)
                   }
                 })
-              },1000);
+              },600);
             }
           },
           reply(name,id){
@@ -123,7 +123,6 @@
             const blogId=this.$route.params.id;
             getComment(blogId).then(res=>{
               if(res.code===200){
-                console.log(res.result);
                 this.commentData=res.result;
                 this.len=res.len;
               }
@@ -155,9 +154,10 @@
     >p{
       padding-bottom: 5px;
       border-bottom: solid 1px #EEEEEE;
+      position: relative;
       span{
-        color: #999999;
         margin-left: 5px;
+        color: #D56464;
       }
     }
     >.post-comment{
@@ -172,7 +172,7 @@
         width: 100%;
         transition: all .3s;
         &:focus{
-          border-color: #00a67c;
+          border-color: #999999;
         }
       }
       >div{
@@ -185,13 +185,12 @@
           border: none;
           padding: 5px;
           background-color: white;
-          transition: all .3s;
+          transition: color .3s;
           &:hover{
-            background-color: #EEEEEE;
+            color: #D56464;
           }
-          img{
-            width: 20px;
-            height: auto;
+          i{
+            font-size: 16px;
             margin-right: 5px;
           }
         }
@@ -201,11 +200,26 @@
   .item{
     display: flex;
     padding: 10px 0;
+    >div{
+      &:nth-child(1){
+        span{
+          font-size: 12px;
+          margin-right: 5px;
+          color: #999999;
+          &.active{
+            background-color: #D56464;
+            color: white;
+            padding: 2px 6px;
+          }
+        }
+      }
+    }
     &-right{
       flex: 1;
       >div{
         &:nth-child(1){
           display: flex;
+          justify-content: space-between;
           >div{
             &:nth-child(1){
               flex: 1;
@@ -213,14 +227,16 @@
             }
             &:nth-child(2){
               text-align: right;
+              min-width: 100px;
             }
           }
           span{
-            font-size: 14px;
+            font-size: 13px;
+            color: #999999;
           }
           a{
             margin-left: 10px;
-            color: #009688;
+            color: #5893c2;
             text-decoration: none;
             font-size: 15px;
             &:hover{
@@ -230,16 +246,17 @@
         }
         &:nth-child(2){
           font-size: 14px;
-          border-top: solid 1px #999999;
+          border-top: solid 1px #EBEBEB;
           padding-top: 5px;
           >div{
             display: flex;
             padding: 5px 0;
+            justify-content: space-between;
             >div{
-              &:nth-child(1){
-                flex: 1;
-              }
               &:nth-child(2){
+                color: #999999;
+                font-size: 13px;
+                min-width: 100px;
                 text-align: right;
               }
             }

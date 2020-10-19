@@ -14,30 +14,32 @@
               <td>{{item.name}}</td>
               <td>{{item.count}}</td>
               <td>
-                <button @click="seeFile(item.id,item.name)">查看该分类</button>
-                <button @click="addFile()">增加新分类</button>
-                <button @click="delFile(item.id,item.name)">删除该分类</button>
+                <button @click="seeFile(item.id,item.name)"><i class="el-icon-thumb"></i>查看该分类</button>
+                <button @click="addFile()"><i class="el-icon-plus"></i>增加新分类</button>
+                <button @click="delFile(item.id,item.name)"><i class="el-icon-delete"></i>删除该分类</button>
               </td>
             </tr>
           </table>
-          <base-loading
-            v-if="loadingFlag"
-            :float="true"
-            :type="1"
-            con="加载中"
-          ></base-loading>
+          <transition name="opacity">
+            <base-loading
+              v-if="loadingFlag"
+              type="float"
+              con="加载中"
+            ></base-loading>
+          </transition>
       </div>
+    <div class="info">共<span>{{arr.length}}</span>条数据</div>
   </div>
 </template>
 
 <script>
-import {getFile} from '../../../api/src';
+import {getFile} from '@/api/src';
 export default {
   name: "admin-file",
   data(){
     return {
       arr:[],
-      loadingFlag:false
+      loadingFlag:false,
     }
   },
   created() {
@@ -64,7 +66,7 @@ export default {
         getCallBack: ({res,params})=>{
           if(res){
             if (typeof params==='undefined'){
-              this.$msg.warning({'con':'新分类不能为空'});
+              this.$msg.warning('新分类不能为空');
             }
             else{
               this.loadingFlag=true;
@@ -73,7 +75,7 @@ export default {
                 let temp={id:maxId+1,name:params,count:0};
                 this.arr.push(temp);
                 this.loadingFlag=false;
-                this.$msg.success({con:'添加分类成功'});
+                this.$msg.success('添加分类成功');
               },600);
             }
           }
@@ -83,7 +85,7 @@ export default {
     },
     delFile(fileId,fileName){
       this.$dialog({
-        con:`确定删除${fileName}分类吗？`,
+        con:`确定删除<span style="color: #00a67c;margin: 0 5px;">${fileName}</span>分类吗？`,
         getCallBack: ({res})=>{
           if(res){
             this.loadingFlag=true;
@@ -91,13 +93,13 @@ export default {
               let index=this.arr.findIndex(x=>x.id===fileId);
               this.arr.splice(index,1);
               this.loadingFlag=false;
-              this.$msg.success({con:'删除成功'});
+              this.$msg.success('删除成功');
             },600);
           }
         }
       })
     }
-  }
+  },
 }
 </script>
 
@@ -112,16 +114,29 @@ export default {
     }
     &-con{
       position: relative;
+      overflow: auto;
       table{
         border-collapse: collapse;
         td{
           border: solid 1px #E7E3E4;
           padding: 8px;
+          &:nth-child(2){
+            min-width: 160px;
+          }
+          &:nth-child(3){
+            min-width: 100px;
+          }
+          &:last-child{
+            min-width: 280px;
+          }
           button{
             color: white;
             border: none;
             padding: 6px 8px;
             transition: all .3s;
+            i{
+              margin-right: 3px;
+            }
             &:hover{
               opacity: .7;
             }
@@ -137,6 +152,21 @@ export default {
           }
         }
       }
+    }
+    .info{
+      margin-top: 10px;
+      font-size: 14px;
+      color: #999999;
+      span{
+        color: #00a67c;
+        padding: 0 3px;
+      }
+    }
+  }
+  @media screen and (max-width: 785px){
+    .admin-file{
+      display: block;
+      max-width: 785px;
     }
   }
 </style>

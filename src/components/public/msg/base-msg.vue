@@ -1,11 +1,13 @@
 <template>
     <transition name="m-slide">
-        <div class="msg" v-if="flag">
+        <div class="msg"
+             :class="position"
+             v-if="flag">
             <div>
-                <img src="../img/error.png" alt="#" v-if="type==='error'">
-                <img src="../img/warning.png" alt="#" v-else-if="type==='warning'">
-                <img src="../img/success.png" alt="#" v-else-if="type==='success'">
-                <img src="../img/info.png" alt="#" v-else>
+              <i class="el-icon-error" v-if="type==='error'"></i>
+              <i class="el-icon-warning" v-else-if="type==='warning'"></i>
+              <i class="el-icon-success" v-else-if="type==='success'"></i>
+              <i class="el-icon-info" v-else></i>
             </div>
             <div>
                 {{con}}
@@ -19,7 +21,8 @@
         name: "base-msg",
         data(){
           return {
-              flag:false
+              flag:false,
+              positionType:['top','bottom']
           }
         },
         props:{
@@ -34,6 +37,13 @@
             duration:{
                 type:Number,
                 default: 3000
+            },
+            position:{
+              type:String,
+              default:'top',
+              validator:function (value){
+                return ['top','bottom'].includes(value)
+              }
             }
         },
         methods:{
@@ -64,24 +74,41 @@
         transform: translate(-50%,20px);
     }
     .msg{
-        position: fixed;
-        background-color: white;
-        padding: 10px 15px;
-        transform: translateX(-50%);
+      &.top{
         left: 50%;
         top: 10%;
-        box-shadow: #DBD9D9 2px 2px 16px;
-        display: flex;
-        div{
-            display: flex;
-            align-items: center;
-            font-size: 15px;
-            img{
-                width: 20px;
-                height: 20px;
-                padding-right: 10px;
+      }
+      &.bottom{
+        left: 50%;
+        bottom: 10%;
+      }
+      position: fixed;
+      background-color: white;
+      padding: 10px 15px;
+      transform: translateX(-50%);
+      box-shadow: #DBD9D9 2px 2px 16px;
+      display: flex;
+      z-index: 1000;
+      div{
+          display: flex;
+          align-items: center;
+          font-size: 15px;
+          i{
+            font-size: 20px;
+            margin-right: 10px;
+            &.el-icon-info{
+              color: #1890FF;
             }
-        }
-
+            &.el-icon-success{
+              color: #52C41A;
+            }
+            &.el-icon-error{
+              color: #FF6365;
+            }
+            &.el-icon-warning{
+              color: #FAAD14;
+            }
+          }
+      }
     }
 </style>

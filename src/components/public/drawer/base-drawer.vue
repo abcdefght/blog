@@ -89,7 +89,7 @@ export default {
       &:nth-child(2){
         animation: leftSlide .3s 1;
         animation-fill-mode: forwards;
-        overflow: hidden;
+        overflow: auto;
         background-color: white;
       }
     }
